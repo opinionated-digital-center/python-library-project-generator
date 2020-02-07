@@ -1,0 +1,119 @@
+variables:
+  GIT_STRATEGY: clone
+
+default:
+  image: python:3.7
+
+stages:
+  - test
+  - release
+
+
+#################################################################
+# test stage jobs
+#################################################################
+
+# YAML anchor containing arrays elements to be merged
+# https://stackoverflow.com/questions/24090177/how-to-merge-yaml-arrays/30683699#57209078
+# note: no dash before commands
+.install_tox_and_poetry: &install_tox_and_poetry |
+  # This step installs tox and poetry but it may already be installed in the python docker image
+  pip install tox
+  curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
+  source $HOME/.poetry/env
+  poetry config virtualenvs.create false
+
+
+py38:
+  stage: test
+  image: python:3.8
+  except:
+    variables:
+      - $SKIP_TESTS == "true"
+  before_script:
+    - *install_tox_and_poetry
+  script:
+    - make py38
+
+py37:
+  stage: test
+  except:
+    variables:
+      - $SKIP_TESTS == "true"
+  before_script:
+    - *install_tox_and_poetry
+  script:
+    - make py37
+
+py36:
+  stage: test
+  image: python:3.6
+  except:
+    variables:
+      - $SKIP_TESTS == "true"
+  before_script:
+    - *install_tox_and_poetry
+  script:
+    - make py36
+
+bdd:
+  stage: test
+  except:
+    variables:
+      - $SKIP_TESTS == "true"
+  before_script:
+    - *install_tox_and_poetry
+  script:
+    - make bdd
+  artifacts:
+    paths:
+      - cucumber-report.json
+    when: always
+
+format:
+  stage: test
+  except:
+    variables:
+      - $SKIP_TESTS == "true"
+  before_script:
+    - *install_tox_and_poetry
+  script:
+    - make format-check
+
+lint:
+  stage: test
+  except:
+    variables:
+      - $SKIP_TESTS == "true"
+  before_script:
+    - *install_tox_and_poetry
+  script:
+    - make lint
+
+type:
+  stage: test
+  except:
+    variables:
+      - $SKIP_TESTS == "true"
+  before_script:
+    - *install_tox_and_poetry
+  script:
+    - make type
+
+#################################################################
+# release stage jobs
+#################################################################
+
+semantic_release:
+  stage: release
+  image: node:12-buster
+  before_script:
+    - update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+    - curl -sSL  https://bootstrap.pypa.io/get-pip.py | python
+    - curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
+    - source $HOME/.poetry/env
+    - poetry config repositories.local "http://pypi.my.localhost"
+    - poetry config virtualenvs.create false
+    - make setup-release-tools
+  script:
+    - make ci-cd-release

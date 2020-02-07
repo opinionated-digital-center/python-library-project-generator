@@ -1,0 +1,11 @@
+[flake8]
+# Setup of for black compatibility
+# (see https://black.readthedocs.io/en/stable/the_black_code_style.html#line-length)
+max-line-length = 80
+select = C,E,F,W,B,B950
+ignore =
+    E501,
+    W503,    # see https://github.com/psf/black/issues/43#issuecomment-374738892
+    E203
+exclude =
+    behave4cmd0/
