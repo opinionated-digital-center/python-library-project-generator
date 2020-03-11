@@ -37,6 +37,7 @@ help:
 	@echo "SETUP TARGETS:"
 	@echo "setup-dev-env-minimal - setup minimal dev environment for all make targets to work"
 	@echo "setup-dev-env-full - setup full dev environment to allow IDE completion"
+	@echo "setup-dev-host - setup dev requirements"
 	@echo "setup-pre-commit-hooks - setup pre-commit hooks"
 	@echo "setup-release-tools: - setup tools needed for releasing pachage"
 	@echo ""
@@ -85,6 +86,11 @@ setup-dev-env-minimal: clean
 
 setup-dev-env-full: clean
 	poetry install --no-root -E test -E bdd -E type -E format -E lint -E repl
+
+setup-dev-host:
+	./scripts/install_pyenv.sh
+	./scripts/install_poetry.sh
+	echo "Host setup correctly. Restart your shell to be up and running :)"
 
 setup-pre-commit-hooks:
 	pre-commit install --hook-type pre-commit
