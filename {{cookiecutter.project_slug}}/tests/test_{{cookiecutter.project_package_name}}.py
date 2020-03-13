@@ -1,23 +1,19 @@
 #!/usr/bin/env python
-
 """Tests for `{{ cookiecutter.project_package_name }}` package."""
 
+{%- if cookiecutter.command_line_interface|lower == 'click' %}
+from click.testing import CliRunner
+{%- endif %}
 {% if cookiecutter.use_pytest == 'y' -%}
 import pytest
 {% else %}
 import unittest
 {%- endif %}
 {%- if cookiecutter.command_line_interface|lower == 'click' %}
-from click.testing import CliRunner
-{%- endif %}
-
-import {{ cookiecutter.project_package_name }}
-{%- if cookiecutter.command_line_interface|lower == 'click' %}
 from {{ cookiecutter.project_package_name }} import cli
 {%- endif %}
 
 {%- if cookiecutter.use_pytest == 'y' %}
-
 
 @pytest.fixture
 def response():

@@ -18,10 +18,8 @@ stages:
 # note: no dash before commands
 .install_tox_and_poetry: &install_tox_and_poetry |
   # This step installs tox and poetry but it may already be installed in the python docker image
-  pip install tox
-  curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
-  source $HOME/.poetry/env
-  poetry config virtualenvs.create false
+  make setup-cicd-test-stage
+  . $HOME/.poetry/env
 
 
 py38:
@@ -108,12 +106,7 @@ semantic_release:
   stage: release
   image: node:12-buster
   before_script:
-    - update-alternatives --install /usr/bin/python python /usr/bin/python3 1
-    - curl -sSL  https://bootstrap.pypa.io/get-pip.py | python
-    - curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
-    - source $HOME/.poetry/env
-    - poetry config repositories.local "http://pypi.my.localhost"
-    - poetry config virtualenvs.create false
-    - make setup-release-tools
+    - make setup-cicd-release-stage
+    - . $HOME/.poetry/env
   script:
-    - make ci-cd-release
+    - make cicd-release
