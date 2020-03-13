@@ -1,28 +1,25 @@
 #!/bin/bash
 
-set -e
+set -ex
 
-echo "Running tests"
+# Prepare directories
+if [ ! -z $1 ]; then
+  COOKIE_DIR=$1
+else
+  COOKIE_DIR=$PWD
+fi
 
-mkdir -p /app
-cd /app
+mkdir -p /projects
+cd /projects
 
-echo "Instanciate project"
-cookiecutter --default-config --no-input /template
+# Instanciate project
+cookiecutter --default-config --no-input ${COOKIE_DIR}
 cd python_boilerplate
 
-echo "Install dev env"
+# Install dev env
 make setup-dev-host
-
-# Don't remove 4 following lines until bugfix in docker container :
-# The 4 following lines should not be here, but currently, we don't know why .bashrc file is not loaded
-# in test docker container.
-export PATH="/root/.pyenv/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-. /root/.poetry/env
-
+source $HOME/.bashrc
 make setup-dev-env-minimal
 
-echo "Build project"
+# Build project
 make tox

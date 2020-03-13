@@ -1,7 +1,27 @@
 # file modified from https://gist.github.com/lumengxi/0ae4645124cd4066f676
-.PHONY: clean-pyc clean-build docs clean
+.PHONY: *
+
+#################################################################
+# Shared variables
+#################################################################
 
 PACKAGE_DIR={{cookiecutter.project_package_name}}
+
+define BROWSER_PYSCRIPT
+import os, webbrowser, sys
+try:
+	from urllib import pathname2url
+except:
+	from urllib.request import pathname2url
+
+webbrowser.open("file://" + pathname2url(os.path.abspath(sys.argv[1])))
+endef
+export BROWSER_PYSCRIPT
+BROWSER := python -c "$$BROWSER_PYSCRIPT"
+
+#################################################################
+# Shared functions
+#################################################################
 
 # Check that given variables are set and all have non-empty values,
 # die with an error otherwise.
@@ -17,17 +37,6 @@ __check_defined = \
     $(if $(value $1),, \
       $(error Undefined $1$(if $2, ($2)): please pass as argument (see help target)))
 
-define BROWSER_PYSCRIPT
-import os, webbrowser, sys
-try:
-	from urllib import pathname2url
-except:
-	from urllib.request import pathname2url
-
-webbrowser.open("file://" + pathname2url(os.path.abspath(sys.argv[1])))
-endef
-export BROWSER_PYSCRIPT
-BROWSER := python -c "$$BROWSER_PYSCRIPT"
 
 #################################################################
 # help
@@ -35,62 +44,68 @@ BROWSER := python -c "$$BROWSER_PYSCRIPT"
 
 help:
 	@echo "SETUP TARGETS:"
-	@echo "setup-dev-env-minimal - setup minimal dev environment for all make targets to work"
-	@echo "setup-dev-env-full - setup full dev environment to allow IDE completion"
-	@echo "setup-dev-host - setup dev requirements"
-	@echo "setup-pre-commit-hooks - setup pre-commit hooks"
-	@echo "setup-release-tools: - setup tools needed for releasing pachage"
+	@echo "\tsetup-dev-env-minimal - setup minimal dev environment for all make targets to work"
+	@echo "\tsetup-dev-env-full - setup full dev environment to allow IDE completion"
+	@echo "\tsetup-dev-host - setup dev requirements"
+	@echo "\tsetup-pre-commit-hooks - setup pre-commit hooks"
+	@echo "\tsetup-release-tools: - setup tools needed for releasing package"
+	@echo "\tsetup-cicd-test-stage: - setup tools needed for CI/CD test stage"
+	@echo "\tsetup-cicd-release-stage: - setup tools needed for CI/CD release stage"
 	@echo ""
 	@echo "MAIN TARGETS:"
-	@echo "clean - remove all build, test, coverage and Python artifacts"
-	@echo "tox - run tox default targets, usually all tests and checks (see tox.ini)"
-	@echo "repl - run the repl tool (bpython in our case)"
-	@echo "lint - check style with flake8 (uses tox)"
-	@echo "format-check - check format for correctness with isort and black (uses tox)"
-	@echo "format - enforce correct format with isort (after a seed-isort-config) and black (does not use tox)"
-	@echo "type - checks Python typing (uses tox)"
-	@echo "test - run tests quickly with the default Python (3.7 - uses tox)"
-	@echo "test-all - run tests on every Python version declared (uses tox)"
-	@echo "bdd - run bdd tests (uses tox)"
-	@echo "coverage - [TO BE IMPLEMENTED] check code coverage quickly with the default Python"
-	@echo "docs - generate Sphinx HTML documentation, including API docs"
-	@echo "ci-cd-release - full release - through ci/cd"
-	@echo "release - [TO BE IMPLEMENTED] full release - from local (requires linux)"
-	@echo "bump NEXT_VERSION=[next_version] - bump versions in all relevant files"
-	@echo "publish - publish package to pypi"
-	@echo "dist - [TO BE IMPLEMENTED] package"
-	@echo "install - install the package to the active Python's site-packages"
+	@echo "\tclean - remove all build, test, coverage and Python artifacts"
+	@echo "\ttox - run tox default targets, usually all tests and checks (see tox.ini)"
+	@echo "\trepl - run the repl tool (bpython in our case)"
+	@echo "\tlint - check style with flake8 (uses tox)"
+	@echo "\tformat-check - check format for correctness with isort and black (uses tox)"
+	@echo "\tformat - enforce correct format with isort (after a seed-isort-config) and black (does not use tox)"
+	@echo "\ttype - checks Python typing (uses tox)"
+	@echo "\ttest - run tests quickly with the default Python (3.7 - uses tox)"
+	@echo "\ttest-all - run tests on every Python version declared (uses tox)"
+	@echo "\tbdd - run bdd tests (uses tox)"
+	@echo "\tcoverage - [TO BE IMPLEMENTED] check code coverage quickly with the default Python"
+	@echo "\tdocs - generate Sphinx HTML documentation, including API docs"
+	@echo "\tdocs-pdf - generate Sphinx PDF documentation, including API docs"
+	@echo "\tcicd-release - full release - through ci/cd"
+	@echo "\trelease - [TO BE IMPLEMENTED] full release - from local (requires linux)"
+	@echo "\tbump NEXT_VERSION=[next_version] - bump versions in all relevant files"
+	@echo "\tpublish - publish package to pypi"
+	@echo "\tdist - [TO BE IMPLEMENTED] package"
+	@echo "\tinstall - install the package to the active Python's site-packages"
 	@echo ""
 	@echo "SECONDARY TARGETS:"
-	@echo "clean-build - remove build artifacts"
-	@echo "clean-pyc - remove Python file artifacts"
-	@echo "clean-test - remove test and coverage artifacts"
-	@echo "clean-venv - remove poetry's virtualenv"
-	@echo "py36 - run tests quickly with the default Python 3.6 (uses tox)"
-	@echo "py37 - run tests quickly with the default Python 3.7 (uses tox)"
-	@echo "py38 - run tests quickly with the default Python 3.8 (uses tox)"
-	@echo "seed-isort - run seed-isort-config (does not use tox)"
-	@echo "isort - run isort to sort imports (does not use tox)"
-	@echo "black - run black the uncompromising code formatter (does not use tox)"
+	@echo "\tclean-build - remove build artifacts"
+	@echo "\tclean-pyc - remove Python file artifacts"
+	@echo "\tclean-test - remove test and coverage artifacts"
+	@echo "\tclean-venv - remove poetry's virtualenv"
+	@echo "\tpy36 - run tests quickly with the default Python 3.6 (uses tox)"
+	@echo "\tpy37 - run tests quickly with the default Python 3.7 (uses tox)"
+	@echo "\tpy38 - run tests quickly with the default Python 3.8 (uses tox)"
+	@echo "\tseed-isort - run seed-isort-config (does not use tox)"
+	@echo "\tisort - run isort to sort imports (does not use tox)"
+	@echo "\tblack - run black the uncompromising code formatter (does not use tox)"
 	@echo ""
 	@echo "GIT TARGETS:"
-	@echo "prune-branches - prune obsolete local tracking branches"
+	@echo "\tprune-branches - prune obsolete local tracking branches"
 
 
 #################################################################
 # setting up dev env
 #################################################################
 
+dev-env-minimal = -E format
+dev-env-full = $(dev-env-minimal) -E test -E bdd -E type -E format -E lint -E repl
+
 setup-dev-env-minimal: clean
-	poetry install --no-root -E format -E repl
+	poetry install --no-root $(dev-env-minimal)
 
 setup-dev-env-full: clean
-	poetry install --no-root -E test -E bdd -E type -E format -E lint -E repl
+	poetry install --no-root $(dev-env-full)
 
 setup-dev-host:
 	./scripts/install_pyenv.sh
 	./scripts/install_poetry.sh
-	echo "Host setup correctly. Restart your shell to be up and running :)"
+	@echo "Host setup correctly. Restart your shell or source your shell config file to be up and running :)"
 
 setup-pre-commit-hooks:
 	pre-commit install --hook-type pre-commit
@@ -101,6 +116,23 @@ setup-release-tools:
 	npm install -g @semantic-release/exec@"^5.0.0"
 	npm install -g @semantic-release/git@"^9.0.0"
 	npm install -g @semantic-release/gitlab@"^6.0.2"
+
+setup-cicd-python3:
+	update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+	curl -sSL  https://bootstrap.pypa.io/get-pip.py | python
+
+setup-cicd-tox:
+	pip install tox
+
+setup-cicd-poetry:
+	curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
+	. $(HOME)/.poetry/env && poetry config virtualenvs.create false
+	echo "WARNING: you still need to source $$HOME/.poetry/env to access poetry's executable"
+
+setup-cicd-test-stage: setup-cicd-tox setup-cicd-poetry
+
+setup-cicd-release-stage: setup-cicd-python3 setup-cicd-poetry setup-release-tools
+
 
 #################################################################
 # cleaning
@@ -223,6 +255,9 @@ docs:
 	poetry run tox -e docs
 	$(BROWSER) docs/_build/html/index.html
 
+docs-pdf:
+	poetry run tox -e docs-pdf
+
 # To use/adjust when we start using coverage. Encourage usage of tox.
 #servedocs: docs
 #	watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
@@ -231,7 +266,7 @@ docs:
 # releasing (full cycle)
 #################################################################
 
-ci-cd-release:
+cicd-release:
 	npx semantic-release
 
 # To use/adjust when we start using coverage. Use Poetry.

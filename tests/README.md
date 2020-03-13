@@ -1,6 +1,6 @@
 # Test this cookiecutter template
 
-To test this cookiecutter template, just run `run_test.sh`.
+To test this cookiecutter template locally, just run `run_test.sh`.
 
-This will build a docker image representing a user's environment.
-This, this will run template creation and some basic commands against it.
+This will spin a docker container, which will run template creation and perform all 
+tests against it.

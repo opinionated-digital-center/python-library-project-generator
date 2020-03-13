@@ -29,11 +29,13 @@ class HelloCommand(cleo.Command):
         )
         self.line("See cleo documentation at https://cleo.readthedocs.io/en/latest/")
 
+
 class Application(cleo.Application):
     def __init__(self):
         super().__init__("{{ cookiecutter.project_name }}", __version__)
 
         self.add(HelloCommand())
+
 
 def main(args=None):
     return Application().run()
@@ -45,8 +47,7 @@ def main(args=None):
                "{{cookiecutter.project_package_name}}.cli.main")
     click.echo("See click documentation at https://click.palletsprojects.com/")
     return 0
-{%- endif %}
-{%- if cookiecutter.command_line_interface|lower == 'argparse' %}
+{%- elif cookiecutter.command_line_interface|lower == 'argparse' %}
 def main():
     """Console script for {{cookiecutter.project_package_name}}."""
     parser = argparse.ArgumentParser()
@@ -58,7 +59,6 @@ def main():
           "{{cookiecutter.project_package_name}}.cli.main")
     return 0
 {%- endif %}
-
 
 if __name__ == "__main__":
     sys.exit(main())  # pragma: no cover
