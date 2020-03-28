@@ -294,7 +294,7 @@ bump:
 #	ls -l dist
 
 publish: clean
-	poetry publish --build -r $$PYPI_REPOSITORY_NAME -u $$PYPI_USERNAME -p $$PYPI_PASSWORD
+	[ -z $$PYPI_REPOSITORY_NAME ] || repo_arg="-r $$PYPI_REPOSITORY_NAME" && poetry publish --build $$repo_arg
 
 #################################################################
 # installing developed package/library
