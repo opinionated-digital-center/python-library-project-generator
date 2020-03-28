@@ -104,6 +104,10 @@ type:
 
 semantic_release:
   stage: release
+  only:
+    refs:
+      - master
+  when: manual
   image: node:12-buster
   before_script:
     - make setup-cicd-release-stage
