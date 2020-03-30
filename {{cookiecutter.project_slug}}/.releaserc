@@ -16,9 +16,11 @@
       "@semantic-release/git",
       {
         "assets": [
+          "CHANGELOG.md",
           "pyproject.toml",
           "{{cookiecutter.project_package_name}}/__version__.py"
-        ]
+        ],
+        "message": "chore(release): ${nextRelease.version}\n\n${nextRelease.notes}"
       }
     ],
     "@semantic-release/gitlab"
