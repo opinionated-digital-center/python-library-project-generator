@@ -1,6 +1,15 @@
 variables:
   GIT_STRATEGY: clone
 
+workflow:
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "release"
+      when: always
+    - if: $CI_MERGE_REQUEST_ID
+      when: always
+    - if: $CI_COMMIT_TAG
+      when: never
+
 default:
   image: python:3.7
 
@@ -25,9 +34,6 @@ stages:
 py38:
   stage: test
   image: python:3.8
-  except:
-    variables:
-      - $SKIP_TESTS == "true"
   before_script:
     - *install_tox_and_poetry
   script:
@@ -35,9 +41,6 @@ py38:
 
 py37:
   stage: test
-  except:
-    variables:
-      - $SKIP_TESTS == "true"
   before_script:
     - *install_tox_and_poetry
   script:
@@ -46,9 +49,6 @@ py37:
 py36:
   stage: test
   image: python:3.6
-  except:
-    variables:
-      - $SKIP_TESTS == "true"
   before_script:
     - *install_tox_and_poetry
   script:
@@ -56,9 +56,6 @@ py36:
 
 bdd:
   stage: test
-  except:
-    variables:
-      - $SKIP_TESTS == "true"
   before_script:
     - *install_tox_and_poetry
   script:
@@ -70,9 +67,6 @@ bdd:
 
 format:
   stage: test
-  except:
-    variables:
-      - $SKIP_TESTS == "true"
   before_script:
     - *install_tox_and_poetry
   script:
@@ -80,9 +74,6 @@ format:
 
 lint:
   stage: test
-  except:
-    variables:
-      - $SKIP_TESTS == "true"
   before_script:
     - *install_tox_and_poetry
   script:
@@ -90,9 +81,6 @@ lint:
 
 type:
   stage: test
-  except:
-    variables:
-      - $SKIP_TESTS == "true"
   before_script:
     - *install_tox_and_poetry
   script:
@@ -104,10 +92,11 @@ type:
 
 semantic_release:
   stage: release
-  only:
-    refs:
-      - master
-  when: manual
+  rules:
+    - if: '$CI_COMMIT_TITLE =~ /^chore\(release\): \d*\.\d*\.\d.*/'
+      when: never
+    - if: $CI_COMMIT_BRANCH == "master"
+      when: on_success
   image: node:12-buster
   before_script:
     - make setup-cicd-release-stage
