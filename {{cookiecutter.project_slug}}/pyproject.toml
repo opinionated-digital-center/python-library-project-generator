@@ -1,8 +1,8 @@
 {%- set license_classifiers = {
-    'MIT': 'License :: OSI Approved :: MIT License',
-    'ISC': 'License :: OSI Approved :: ISC License (ISCL)',
-    'Apache-2.0': 'License :: OSI Approved :: Apache Software License',
-    'GPL-3.0': 'License :: OSI Approved :: GNU General Public License v3 (GPLv3)'
+    "MIT": "License :: OSI Approved :: MIT License",
+    "ISC": "License :: OSI Approved :: ISC License (ISCL)",
+    "Apache-2.0": "License :: OSI Approved :: Apache Software License",
+    "GPL-3.0": "License :: OSI Approved :: GNU General Public License v3 (GPLv3)"
 } %}# Largely inspired from (pointing to precise version)
 # https://github.com/thejohnfreeman/project-template-python/tree/6d04c7b3b00460bb7473246096c52cc22d403226
 
@@ -23,10 +23,10 @@ packages = [
 ]
 keywords = ["{{ cookiecutter.project_slug }}"]
 classifiers = [
-    'Development Status :: 2 - Pre-Alpha',
-    'Intended Audience :: Developers',
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
 {%- if cookiecutter.open_source_license in license_classifiers %}
-    '{{ license_classifiers[cookiecutter.open_source_license] }}',
+    "{{ license_classifiers[cookiecutter.open_source_license] }}",
 {%- endif %}
     'Natural Language :: English',
     'Operating System :: POSIX',
@@ -43,7 +43,7 @@ classifiers = [
 [tool.poetry.dependencies]
 python = "^3.6"
 # Optional dependencies to be part of `test` extra
-{%- if cookiecutter.use_pytest == 'y' %}
+{%- if cookiecutter.use_pytest == "y" %}
 pytest = {version = "^5.1", optional = true}
 pytest-cov = {version = "^2.8.1", optional = true}
 pytest-mock = {version = "^1.13.0", optional = true}
@@ -73,9 +73,9 @@ sphinx_rtd_theme = {version = "^0.4.3", optional = true}
 # Optional dependencies to be part of `repl` extra
 bpython = {version = "^0.18", optional = true}
 # Non optional dependendies
-{%- if cookiecutter.command_line_interface|lower == 'cleo' %}
+{%- if cookiecutter.command_line_interface|lower == "cleo" %}
 cleo = "^0.7.6"
-{%- elif cookiecutter.command_line_interface|lower == 'click' %}
+{%- elif cookiecutter.command_line_interface|lower == "click" %}
 click = "^7.1.1"
 {%- endif %}
 #############################
@@ -96,10 +96,10 @@ format = ["isort", "seed-isort-config", "black"]
 docs= ["sphinx", "sphinx-autodoc-typehints", "sphinx-autobuild", "sphinx_rtd_theme"]
 repl = ["bpython"]
 
-{%- if 'no' not in cookiecutter.command_line_interface|lower %}
+{%- if "no" not in cookiecutter.command_line_interface|lower %}
 
 [tool.poetry.scripts]
-{{ cookiecutter.project_package_name }} = '{{ cookiecutter.project_package_name }}.cli:main'
+{{ cookiecutter.project_package_name }} = "{{ cookiecutter.project_package_name }}.cli:main"
 {%- endif %}
 
 [tool.isort]
@@ -110,15 +110,15 @@ include_trailing_comma = true
 use_parentheses = true
 force_grid_wrap = 0
 line_length = 88
-{%- if cookiecutter.command_line_interface|lower == 'cleo' or cookiecutter.command_line_interface|lower == 'click' %}
-known_third_party = ["behave", "{{ cookiecutter.command_line_interface|lower }}", "hamcrest"{% if cookiecutter.use_pytest == 'y' %}, "pytest"{%- endif %}, "six", "toml"]
+{%- if cookiecutter.command_line_interface|lower == "cleo" or cookiecutter.command_line_interface|lower == "click" %}
+known_third_party = ["behave", "{{ cookiecutter.command_line_interface|lower }}", "hamcrest"{% if cookiecutter.use_pytest == "y" %}, "pytest"{%- endif %}, "six", "toml"]
 {% else %}
-known_third_party = ["behave", "hamcrest"{% if cookiecutter.use_pytest == 'y' %}, "pytest"{%- endif %}, "six", "toml"]
+known_third_party = ["behave", "hamcrest"{% if cookiecutter.use_pytest == "y" %}, "pytest"{%- endif %}, "six", "toml"]
 {%- endif %}
 
 [tool.black]
 line-length = 88
-target_version = ['py37']
+target_version = ["py37"]
 
 [build-system]
 requires = ["poetry==1.0.5"]
