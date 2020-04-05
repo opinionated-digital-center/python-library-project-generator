@@ -1,0 +1,12 @@
+name: end-to-end
+on: [push]
+
+jobs:
+  prepare-env:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build environmemnt
+      run: docker build -t cookie-test tests -f ./tests/Dockerfile
+    - name: Run test
+      run: docker run --rm -v $(pwd):/template cookie-test /template/tests/instanciate_project_and_validate_it.sh /template
