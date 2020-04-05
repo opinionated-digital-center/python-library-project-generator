@@ -1,0 +1,5 @@
+name: 'test-project-creation'
+description: 'Provision a project using the cookiecutter template'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
