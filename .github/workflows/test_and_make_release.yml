@@ -58,10 +58,10 @@ jobs:
           cookiecutter --default-config --no-input ..
           cd python_boilerplate
 
-          ./scripts/install_poetry.sh
+          ./scripts/install_pyenv.sh
           source $HOME/.bashrc
 
-          poetry --version
+          pyenv --version
 
 
   semantic_release:
