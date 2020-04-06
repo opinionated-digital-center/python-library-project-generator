@@ -12,24 +12,62 @@ on:
       - master
 
 jobs:
-  test:
+  test_install_poetry:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [3.8]
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python 3.8
         uses: actions/setup-python@v1
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: 3.8
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
+          pip install cookiecutter
+      - name: Instantiate template and validate
+        run: |
+          mkdir instantiations
+          cd instantiations
+
+          cookiecutter --default-config --no-input ..
+          cd python_boilerplate
+
+          ./scripts/install_poetry.sh
+          source $HOME/.bashrc
+
+          poetry --version
+
+
+  test_install_pyenv:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install cookiecutter
+      - name: Instantiate template and validate
+        run: |
+          mkdir instantiations
+          cd instantiations
+
+          cookiecutter --default-config --no-input ..
+          cd python_boilerplate
+
+          ./scripts/install_poetry.sh
+          source $HOME/.bashrc
+
+          poetry --version
+
 
   semantic_release:
     needs:
-      - test
+      - test_install_poetry
+      - test_install_pyenv
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
