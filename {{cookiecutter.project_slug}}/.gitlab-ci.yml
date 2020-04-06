@@ -27,7 +27,7 @@ stages:
 # note: no dash before commands
 .install_tox_and_poetry: &install_tox_and_poetry |
   # This step installs tox and poetry but it may already be installed in the python docker image
-  make setup-cicd-test-stage
+  make setup-cicd-test-stage-gitlab
   . $HOME/.poetry/env
 
 
@@ -99,7 +99,7 @@ semantic_release:
       when: on_success
   image: node:12-buster
   before_script:
-    - make setup-cicd-release-stage
+    - make setup-cicd-release-stage-gitlab-gitlab
     - . $HOME/.poetry/env
   script:
     - make cicd-release
