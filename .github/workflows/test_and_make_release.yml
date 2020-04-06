@@ -33,7 +33,7 @@ jobs:
           cd python_boilerplate
 
           ./scripts/install_poetry.sh
-          source $HOME/.bashrc
+          source $HOME/.poetry/env
 
           poetry --version
 
