@@ -49,8 +49,8 @@ help:
 	@echo "\tsetup-dev-host - setup dev requirements"
 	@echo "\tsetup-pre-commit-hooks - setup pre-commit hooks"
 	@echo "\tsetup-release-tools: - setup tools needed for releasing package"
-	@echo "\tsetup-cicd-test-stage: - setup tools needed for CI/CD test stage"
-	@echo "\tsetup-cicd-release-stage: - setup tools needed for CI/CD release stage"
+	@echo "\tsetup-cicd-test-stage-gitlab: - setup tools needed for CI/CD test stage"
+	@echo "\tsetup-cicd-release-stage-gitlab: - setup tools needed for CI/CD release stage"
 	@echo ""
 	@echo "MAIN TARGETS:"
 	@echo "\tclean - remove all build, test, coverage and Python artifacts"
@@ -110,12 +110,15 @@ setup-dev-host:
 setup-pre-commit-hooks:
 	pre-commit install --hook-type pre-commit
 
-setup-release-tools:
+setup-release-tools-common:
 	npm install -g semantic-release@"^17.0.4"
-	npm install -g @semantic-release/changelog@"^5.0.0"
+	npm install -g @semantic-release/changelog@"^5.0.1"
 	npm install -g @semantic-release/exec@"^5.0.0"
 	npm install -g @semantic-release/git@"^9.0.0"
-	npm install -g @semantic-release/gitlab@"^6.0.2"
+
+#################################################################
+# setting up ci-cd env
+#################################################################
 
 setup-cicd-python3:
 	update-alternatives --install /usr/bin/python python /usr/bin/python3 1
@@ -129,9 +132,19 @@ setup-cicd-poetry:
 	. $(HOME)/.poetry/env && poetry config virtualenvs.create false
 	echo "WARNING: you still need to source $$HOME/.poetry/env to access poetry's executable"
 
-setup-cicd-test-stage: setup-cicd-tox setup-cicd-poetry
+setup-release-tools-gitlab: setup-release-tools-common
+	npm install -g @semantic-release/gitlab@"^6.0.3"
 
-setup-cicd-release-stage: setup-cicd-python3 setup-cicd-poetry setup-release-tools
+setup-release-tools-github: setup-release-tools-common
+	npm install -g @semantic-release/github@"^7.0.5"
+
+setup-cicd-test-stage-gitlab: setup-cicd-tox setup-cicd-poetry
+
+setup-cicd-test-stage-github: setup-cicd-tox
+
+setup-cicd-release-stage-gitlab: setup-cicd-python3 setup-cicd-poetry setup-release-tools-gitlab
+
+setup-cicd-release-stage-github: setup-release-tools-gitlab
 
 
 #################################################################
@@ -215,7 +228,10 @@ type:
 # unit testing
 #################################################################
 
-test: py37
+test: py
+
+py:
+	poetry run tox -e py
 
 py37:
 	poetry run tox -e py37
@@ -284,7 +300,7 @@ cicd-release:
 bump:
 	$(call check_defined, NEW_VERSION)
 	poetry version $(NEW_VERSION)
-	pip install toml
+	poetry run pip install toml
 	poetry run python ./scripts/generate_version_file.py
 
 # To use/adjust when we start using coverage. Use Poetry.
