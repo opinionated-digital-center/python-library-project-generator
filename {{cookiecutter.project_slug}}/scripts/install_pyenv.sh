@@ -59,8 +59,11 @@ else
   } >&2
 fi
 
-echo "Sourcing ${profile}"
-source $profile
+#echo "Sourcing ${profile}"
+#source $profile
+export PATH="${PYENV_ROOT}/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
 
 echo "Python environments installations. If there are missing dependencies, check https://github.com/pyenv/pyenv/wiki/common-build-problems"
 LATEST_AVAILABLE_PYTHON_VERSION_38=$(pyenv install --list | grep -v - | grep -v b | grep 3.8 | tail -1)
