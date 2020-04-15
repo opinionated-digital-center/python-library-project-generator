@@ -1,3 +1,10 @@
+# [0.2.0](https://github.com/opinionated-digital-center/python-library-project-generator/compare/v0.1.0...v0.2.0) (2020-04-15)
+
+
+### Features
+
+* **ci:** rehaul github workflows ([d070c51](https://github.com/opinionated-digital-center/python-library-project-generator/commit/d070c51f2adcbe3357d722411f98e6307c52fbea))
+
 # [0.1.0](https://github.com/opinionated-digital-center/cookiecutter-pypackage/compare/v0.0.0...v0.1.0) (2020-04-06)
 
 
