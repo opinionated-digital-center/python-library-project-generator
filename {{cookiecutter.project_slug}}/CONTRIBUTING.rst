@@ -90,11 +90,11 @@ Setup (for Mac)
 5. When you're done making changes, check that your changes pass typing, linting, formatting, unit tests
    (for all versions of Python) and functional (bdd) tests::
 
-    $ flake8 {{ cookiecutter.project_package_name }} tests
-    $ python setup.py test or pytest
-    $ tox
+    $ make tox
 
-   To get flake8 and tox, just pip install them into your virtualenv.
+.. note::
+
+    See the Makefile help for all available targets.
 
 6. Commit your changes and push your branch to GitHub::
 
