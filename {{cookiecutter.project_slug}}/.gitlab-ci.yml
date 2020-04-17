@@ -25,65 +25,91 @@ stages:
 # YAML anchor containing arrays elements to be merged
 # https://stackoverflow.com/questions/24090177/how-to-merge-yaml-arrays/30683699#57209078
 # note: no dash before commands
-.install_tox_and_poetry: &install_tox_and_poetry |
+.setup-test-stage: &setup-test-stage |
   # This step installs tox and poetry but it may already be installed in the python docker image
   make setup-cicd-test-stage-gitlab
   . $HOME/.poetry/env
-
 
 py38:
   stage: test
   image: python:3.8
   before_script:
-    - *install_tox_and_poetry
+    - *setup-test-stage
   script:
-    - make py38
+    - make install-test-dependencies
+    - make test
 
 py37:
   stage: test
+  image: python:3.7
   before_script:
-    - *install_tox_and_poetry
+    - *setup-test-stage
   script:
-    - make py37
+    - make install-test-dependencies
+    - make test
 
 py36:
   stage: test
   image: python:3.6
   before_script:
-    - *install_tox_and_poetry
+    - *setup-test-stage
   script:
-    - make py36
+    - make install-test-dependencies
+    - make test
 
-bdd:
+bdd-py38:
   stage: test
+  image: python:3.8
   before_script:
-    - *install_tox_and_poetry
+    - *setup-test-stage
   script:
+    - make install-bdd-dependencies
     - make bdd
   artifacts:
     paths:
       - cucumber-report.json
     when: always
 
+bdd-py37:
+  stage: test
+  image: python:3.7
+  before_script:
+    - *setup-test-stage
+  script:
+    - make install-bdd-dependencies
+    - make bdd
+
+bdd-py36:
+  stage: test
+  image: python:3.6
+  before_script:
+    - *setup-test-stage
+  script:
+    - make install-bdd-dependencies
+    - make bdd
+
 format:
   stage: test
   before_script:
-    - *install_tox_and_poetry
+    - *setup-test-stage
   script:
+    - make install-format-dependencies
     - make format-check
 
 lint:
   stage: test
   before_script:
-    - *install_tox_and_poetry
+    - *setup-test-stage
   script:
+    - make install-lint-dependencies
     - make lint
 
 type:
   stage: test
   before_script:
-    - *install_tox_and_poetry
+    - *setup-test-stage
   script:
+    - make install-type-dependencies
     - make type
 
 #################################################################
@@ -99,7 +125,7 @@ semantic_release:
       when: on_success
   image: node:12-buster
   before_script:
-    - make setup-cicd-release-stage-gitlab-gitlab
+    - make setup-cicd-release-stage-gitlab
     - . $HOME/.poetry/env
   script:
     - make cicd-release

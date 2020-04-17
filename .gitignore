@@ -1,4 +1,7 @@
-# IDE settings
+### Project specific
+secrets
+
+### IDE settings
 .vscode/
 .idea/
 

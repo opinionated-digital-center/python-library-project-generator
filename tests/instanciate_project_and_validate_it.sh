@@ -14,7 +14,7 @@ cd /projects
 
 # Instanciate project
 cookiecutter --default-config --no-input ${COOKIE_DIR}
-cd python_boilerplate
+cd a_generated_python_project
 
 # Install dev env
 make setup-dev-host
