@@ -1,0 +1,2 @@
+-r tests_requirements.txt
+python-gitlab ~= 1.9

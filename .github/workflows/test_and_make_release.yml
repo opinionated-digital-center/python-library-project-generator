@@ -6,6 +6,9 @@ on:
       - master
   pull_request:
 
+env:
+  POETRY_VIRTUALENVS_CREATE: false
+
 jobs:
   template_test:
     runs-on: ubuntu-latest
@@ -24,12 +27,10 @@ jobs:
         run: make setup-cicd
       - name: Instantiate template
         run: make refresh
-      - name: Install template tools
-        run: make -C build/python_boilerplate setup-cicd-test-stage-github
-      - name: Run template tests
-        env:
-          POETRY_VIRTUALENVS_CREATE: false
-        run: make -C build/python_boilerplate test
+      - name: Install generated project's tests dependencies
+        run: make -C build/a_generated_python_project install-test-dependencies
+      - name: Run generated project's tests
+        run: make -C build/a_generated_python_project test
 
   template_bdd:
     runs-on: ubuntu-latest
@@ -48,12 +49,10 @@ jobs:
         run: make setup-cicd
       - name: Instantiate template
         run: make refresh
-      - name: Install template tools
-        run: make -C build/python_boilerplate setup-cicd-test-stage-github
-      - name: Run template bdd tests
-        env:
-          POETRY_VIRTUALENVS_CREATE: false
-        run: make -C build/python_boilerplate bdd
+      - name: Install generated project's bdd tests dependencies
+        run: make -C build/a_generated_python_project install-bdd-dependencies
+      - name: Run generated project's bdd tests
+        run: make -C build/a_generated_python_project bdd
 
   template_format:
     runs-on: ubuntu-latest
@@ -69,12 +68,10 @@ jobs:
         run: make setup-cicd
       - name: Instantiate template
         run: make refresh
-      - name: Install template tools
-        run: make -C build/python_boilerplate setup-cicd-test-stage-github
-      - name: Run template format checks
-        env:
-          POETRY_VIRTUALENVS_CREATE: false
-        run: make -C build/python_boilerplate format-check
+      - name: Install generated project's format dependencies
+        run: make -C build/a_generated_python_project install-format-dependencies
+      - name: Run generated project's format checks
+        run: make -C build/a_generated_python_project format-check
 
   template_lint:
     runs-on: ubuntu-latest
@@ -90,12 +87,10 @@ jobs:
         run: make setup-cicd
       - name: Instantiate template
         run: make refresh
-      - name: Install template tools
-        run: make -C build/python_boilerplate setup-cicd-test-stage-github
-      - name: Run template lint checks
-        env:
-          POETRY_VIRTUALENVS_CREATE: false
-        run: make -C build/python_boilerplate lint
+      - name: Install generated project's lint dependencies
+        run: make -C build/a_generated_python_project install-lint-dependencies
+      - name: Run generated project's lint checks
+        run: make -C build/a_generated_python_project lint
 
   template_type:
     runs-on: ubuntu-latest
@@ -111,12 +106,10 @@ jobs:
         run: make setup-cicd
       - name: Instantiate template
         run: make refresh
-      - name: Install template tools
-        run: make -C build/python_boilerplate setup-cicd-test-stage-github
-      - name: Run template type checks
-        env:
-          POETRY_VIRTUALENVS_CREATE: false
-        run: make -C build/python_boilerplate type
+      - name: Install generated project's type dependencies
+        run: make -C build/a_generated_python_project install-type-dependencies
+      - name: Run generated project's type checks
+        run: make -C build/a_generated_python_project type
 
   semantic_release:
     needs:
@@ -143,7 +136,7 @@ jobs:
             @semantic-release/github@"^7.0.5"
         env:
           GITHUB_TOKEN: ${{ secrets.SELF_SET_GITHUB_TOKEN }}
-          GIT_AUTHOR_NAME: ${{ secrets.GIT_AUTHOR_NAME }}
-          GIT_AUTHOR_EMAIL: ${{ secrets.GIT_AUTHOR_EMAIL }}
-          GIT_COMMITTER_NAME: ${{ secrets.GIT_COMMITTER_NAME }}
-          GIT_COMMITTER_EMAIL: ${{ secrets.GIT_COMMITTER_EMAIL }}
+          GIT_AUTHOR_NAME: ${{ secrets.GIT_NAME }}
+          GIT_AUTHOR_EMAIL: ${{ secrets.GIT_EMAIL }}
+          GIT_COMMITTER_NAME: ${{ secrets.GIT_NAME }}
+          GIT_COMMITTER_EMAIL: ${{ secrets.GIT_EMAIL }}

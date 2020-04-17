@@ -1,10 +1,10 @@
 {
   "full_name": "Emmanuel Sciara",
   "email": "emmanuel.sciara@gmail.com",
-  "project_name": "Python Boilerplate",
+  "project_name": "A Generated Python Project",
   "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
   "project_package_name": "{{ cookiecutter.project_slug }}",
-  "project_short_description": "Python Boilerplate contains all the boilerplate you need to create a Python package.",
+  "project_short_description": "A Generated Python Project contains all the boilerplate you need to create a Python package.",
   "github_username": "esciara",
   "github_repo_url": "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}",
   "pypi_username": "{{ cookiecutter.github_username }}",

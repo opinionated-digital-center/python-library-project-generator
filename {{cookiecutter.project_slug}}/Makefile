@@ -49,12 +49,15 @@ help:
 	@echo "\tsetup-dev-host - setup dev requirements"
 	@echo "\tsetup-pre-commit-hooks - setup pre-commit hooks"
 	@echo "\tsetup-release-tools: - setup tools needed for releasing package"
-	@echo "\tsetup-cicd-test-stage-gitlab: - setup tools needed for CI/CD test stage"
-	@echo "\tsetup-cicd-release-stage-gitlab: - setup tools needed for CI/CD release stage"
+	@echo "\tsetup-cicd-test-stage-github: - setup tools needed for CI/CD test stage (GitHub)"
+	@echo "\tsetup-cicd-release-stage-github: - setup tools needed for CI/CD release stage (GitHub)"
+	@echo "\tsetup-cicd-test-stage-gitlab: - setup tools needed for CI/CD test stage (GitLab)"
+	@echo "\tsetup-cicd-release-stage-gitlab: - setup tools needed for CI/CD release stage (GitLab)"
 	@echo ""
 	@echo "MAIN TARGETS:"
 	@echo "\tclean - remove all build, test, coverage and Python artifacts"
 	@echo "\ttox - run tox default targets, usually all tests and checks (see tox.ini)"
+	@echo "\ttox-p - same as 'tox', but with parallel runs"
 	@echo "\trepl - run the repl tool (bpython in our case)"
 	@echo "\tlint - check style with flake8 (uses tox)"
 	@echo "\tformat-check - check format for correctness with isort and black (uses tox)"
@@ -73,6 +76,15 @@ help:
 	@echo "\tdist - [TO BE IMPLEMENTED] package"
 	@echo "\tinstall - install the package to the active Python's site-packages"
 	@echo ""
+	@echo "TOX TARGETS:"
+	@echo "\ttox-lint - check style with flake8 (uses tox)"
+	@echo "\ttox-format - check format for correctness with isort and black (uses tox)"
+	@echo "\ttox-type - checks Python typing (uses tox)"
+	@echo "\ttox-test - run tests quickly with the default Python (3.7 - uses tox)"
+	@echo "\ttox-test-all - run tests on every Python version declared (uses tox)"
+	@echo "\ttox-bdd - run bdd tests (uses tox)"
+	@echo "\ttox-docs - generate Sphinx HTML documentation, including API docs"
+	@echo "\ttox-docs-pdf - generate Sphinx PDF documentation, including API docs"
 	@echo "SECONDARY TARGETS:"
 	@echo "\tclean-build - remove build artifacts"
 	@echo "\tclean-pyc - remove Python file artifacts"
@@ -86,7 +98,9 @@ help:
 	@echo "\tblack - run black the uncompromising code formatter (does not use tox)"
 	@echo ""
 	@echo "GIT TARGETS:"
-	@echo "\tprune-branches - prune obsolete local tracking branches"
+	@echo "\tprune-branches - prune obsolete local tracking branches and local branches"
+	@echo "\tprune-branches-force|pbf - as above but force delete local branches"
+	@echo "\tpost-PR-merge-sync|pms - switch to master, pull and run pbf target"
 
 
 #################################################################
@@ -94,7 +108,7 @@ help:
 #################################################################
 
 dev-env-minimal = -E format
-dev-env-full = $(dev-env-minimal) -E test -E bdd -E type -E format -E lint -E repl
+dev-env-full = -E test -E bdd -E type -E format -E lint -E repl
 
 setup-dev-env-minimal: clean
 	poetry install --no-root $(dev-env-minimal)
@@ -116,6 +130,35 @@ setup-release-tools-common:
 	npm install -g @semantic-release/exec@"^5.0.0"
 	npm install -g @semantic-release/git@"^9.0.0"
 
+setup-release-tools-gitlab: setup-release-tools-common
+	npm install -g @semantic-release/gitlab@"^6.0.3"
+
+setup-release-tools-github: setup-release-tools-common
+	npm install -g @semantic-release/github@"^7.0.5"
+
+#################################################################
+# setting dependencies for automation (tox, cicd)
+#################################################################
+
+install-test-dependencies :
+	poetry install --no-dev --no-root -E test
+
+install-bdd-dependencies:
+	poetry install --no-dev -E bdd
+
+install-format-dependencies:
+	poetry install --no-dev --no-root -E format
+
+install-lint-dependencies:
+	poetry install --no-dev --no-root -E lint
+
+install-type-dependencies:
+	poetry install --no-dev --no-root -E type
+
+install-docs-dependencies:
+	poetry install --no-dev --no-root -E docs
+
+
 #################################################################
 # setting up ci-cd env
 #################################################################
@@ -132,19 +175,11 @@ setup-cicd-poetry:
 	. $(HOME)/.poetry/env && poetry config virtualenvs.create false
 	echo "WARNING: you still need to source $$HOME/.poetry/env to access poetry's executable"
 
-setup-release-tools-gitlab: setup-release-tools-common
-	npm install -g @semantic-release/gitlab@"^6.0.3"
-
-setup-release-tools-github: setup-release-tools-common
-	npm install -g @semantic-release/github@"^7.0.5"
-
-setup-cicd-test-stage-gitlab: setup-cicd-tox setup-cicd-poetry
-
-setup-cicd-test-stage-github: setup-cicd-tox
+setup-cicd-test-stage-gitlab: setup-cicd-poetry
 
 setup-cicd-release-stage-gitlab: setup-cicd-python3 setup-cicd-poetry setup-release-tools-gitlab
 
-setup-cicd-release-stage-github: setup-release-tools-gitlab
+setup-cicd-release-stage-github: setup-release-tools-github
 
 
 #################################################################
@@ -185,6 +220,9 @@ clean-venv:
 tox:
 	poetry run tox
 
+tox-p:
+	poetry run tox -p auto
+
 #################################################################
 # repl
 #################################################################
@@ -197,16 +235,14 @@ repl:
 #################################################################
 
 lint:
+	poetry run flake8 $(PACKAGE_DIR) tests features
+
+tox-lint:
 	poetry run tox -e lint
 
 #################################################################
 # formating
 #################################################################
-
-format-check:
-	poetry run tox -e format
-
-format: seed-isort isort black
 
 seed-isort:
 	-poetry run seed-isort-config
@@ -217,32 +253,47 @@ isort:
 black:
 	poetry run black $(PACKAGE_DIR) tests features
 
+format: seed-isort isort black
+
+format-check:
+	poetry run isort -c -rc $(PACKAGE_DIR) tests features -vb
+	poetry run black --check $(PACKAGE_DIR) tests features
+
+tox-format:
+	poetry run tox -e format
+
 #################################################################
 # typing
 #################################################################
 
 type:
+	poetry run mypy -p $(PACKAGE_DIR) -p tests
+
+tox-type:
 	poetry run tox -e type
 
 #################################################################
 # unit testing
 #################################################################
 
-test: py
+test:
+	poetry run pytest --cov=$(PACKAGE_DIR) --cov-report=html --cov-report=term tests
 
-py:
+tox-test: py
+
+tox-py:
 	poetry run tox -e py
 
-py37:
+tox-py37:
 	poetry run tox -e py37
 
-py36:
+tox-py36:
 	poetry run tox -e py36
 
-py38:
+tox-py38:
 	poetry run tox -e py38
 
-test-all:
+tox-test-all:
 	poetry run tox -e py37,py36,py38
 
 #################################################################
@@ -250,6 +301,9 @@ test-all:
 #################################################################
 
 bdd:
+	poetry run behave features --format=behave_ext.cucumber_json:PrettyCucumberJSONFormatter -o cucumber-report.json --format=pretty
+
+tox-bdd:
 	poetry run tox -e bdd
 
 #################################################################
@@ -268,10 +322,18 @@ bdd:
 #################################################################
 
 docs:
+	poetry run sphinx-apidoc -o docs/ $(PACKAGE_DIR)
+	$(MAKE) -C docs clean
+	$(MAKE) -C docs html
+
+docs-pdf:
+	$(MAKE) -C docs latexpdf
+
+tox-docs:
 	poetry run tox -e docs
 	$(BROWSER) docs/_build/html/index.html
 
-docs-pdf:
+tox-docs-pdf:
 	poetry run tox -e docs-pdf
 
 # To use/adjust when we start using coverage. Encourage usage of tox.
@@ -310,6 +372,7 @@ bump:
 #	ls -l dist
 
 publish: clean
+	poetry run python scripts/verify_pypi_env_variables.py
 	[ -z $$PYPI_REPOSITORY_NAME ] || repo_arg="-r $$PYPI_REPOSITORY_NAME" && poetry publish --build $$repo_arg
 
 #################################################################
@@ -326,3 +389,18 @@ install: clean
 prune-branches:
 	git remote prune origin
 	git branch -vv | grep ': gone]'|  grep -v "\*" | awk '{ print $$1; }' | xargs git branch -d
+
+
+prune-branches-force:
+	git remote prune origin
+	git branch -vv | grep ': gone]'|  grep -v "\*" | awk '{ print $$1; }' | xargs git branch -D
+
+pbf: prune-branches-force
+
+post-PR-merge-sync-step-1:
+	git switch master
+	git pull
+
+post-PR-merge-sync: post-PR-merge-sync-step-1 prune-branches-force
+
+pms: post-PR-merge-sync

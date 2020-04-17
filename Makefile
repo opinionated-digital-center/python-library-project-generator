@@ -1,6 +1,6 @@
 .PHONY: *
 BUILD_DIR=build
-COOKIECUTTER_OUTPUT_DIR=$(BUILD_DIR)/python_boilerplate
+COOKIECUTTER_OUTPUT_DIR=$(BUILD_DIR)/a_generated_python_project
 
 help:
 	@echo "help"
@@ -8,6 +8,12 @@ help:
 setup-cicd:
 	pip install --upgrade pip
 	pip install cookiecutter
+
+setup-cicd-pipelines-tests: setup-cicd
+	pip install -r gitlab_pipelines_tests_requirements.txt
+
+test-gitlab-pipeline:
+	pytest tests/test_gitlab_pipeline.py
 
 refresh:
 	rm -rf $(BUILD_DIR)
