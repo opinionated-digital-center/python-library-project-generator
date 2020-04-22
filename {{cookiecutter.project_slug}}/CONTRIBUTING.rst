@@ -15,7 +15,7 @@ Types of Contributions
 Report Bugs
 ~~~~~~~~~~~
 
-Report bugs at {{ cookiecutter.github_repo_url }}/issues.
+Report bugs at {{ cookiecutter.hosting_repo_url }}/issues.
 
 If you are reporting a bug, please include:
 
@@ -26,26 +26,26 @@ If you are reporting a bug, please include:
 Fix Bugs
 ~~~~~~~~
 
-Look through the GitHub issues for bugs. Anything tagged with "bug" and "help
+Look through the {{ cookiecutter.hosting }} issues for bugs. Anything tagged with "bug" and "help
 wanted" is open to whoever wants to implement it.
 
 Implement Features
 ~~~~~~~~~~~~~~~~~~
 
-Look through the GitHub issues for features. Anything tagged with "enhancement"
+Look through the {{ cookiecutter.hosting }} issues for features. Anything tagged with "enhancement"
 and "help wanted" is open to whoever wants to implement it.
 
 Write Documentation
 ~~~~~~~~~~~~~~~~~~~
 
-{{ cookiecutter.project_name }} could always use more documentation, whether as part of the
-official {{ cookiecutter.project_name }} docs, in docstrings, or even on the web in blog posts,
+{{ cookiecutter.project_title }} could always use more documentation, whether as part of the
+official {{ cookiecutter.project_title }} docs, in docstrings, or even on the web in blog posts,
 articles, and such.
 
 Submit Feedback
 ~~~~~~~~~~~~~~~
 
-The best way to send feedback is to file an issue at {{ cookiecutter.github_repo_url }}/issues.
+The best way to send feedback is to file an issue at {{ cookiecutter.hosting_repo_url }}/issues.
 
 If you are proposing a feature:
 
@@ -71,10 +71,10 @@ Prerequisite
 Setup (for Mac)
 ~~~~~~~~~~~~~~~
 
-1. Fork the ``{{ cookiecutter.project_slug }}`` repo on GitHub.
+1. Fork the ``{{ cookiecutter.project_slug }}`` repo on {{ cookiecutter.hosting }}.
 2. Clone your fork locally::
 
-    $ git clone git@github.com:your_name_here/{{ cookiecutter.project_slug }}.git
+    $ git clone {{ cookiecutter.hosting_repo_url }}.git
 
 3. Assuming you have the prerequisites installed, this is how you set up your fork for local development::
 
@@ -90,19 +90,20 @@ Setup (for Mac)
 5. When you're done making changes, check that your changes pass typing, linting, formatting, unit tests
    (for all versions of Python) and functional (bdd) tests::
 
-    $ flake8 {{ cookiecutter.project_package_name }} tests
-    $ python setup.py test or pytest
-    $ tox
+    $ make tox
 
-   To get flake8 and tox, just pip install them into your virtualenv.
+.. note::
 
-6. Commit your changes and push your branch to GitHub::
+    See the Makefile help for all available targets.
+
+
+6. Commit your changes and push your branch to {{ cookiecutter.hosting }}::
 
     $ git add .
     $ git commit -m "Your detailed description of your changes."
-    $ git push origin name-of-your-bugfix-or-feature
+    $ git push --set-upstream origin name-of-your-bugfix-or-feature
 
-7. Submit a pull request through the GitHub website.
+7. Submit a {{ "merge" if cookiecutter.hosting == "GitLab" else "pull" }} request through the {{ cookiecutter.hosting }} website.
 
 Pull Request Guidelines
 -----------------------

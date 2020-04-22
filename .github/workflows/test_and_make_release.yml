@@ -4,57 +4,77 @@ on:
   push:
     branches:
       - master
+    paths-ignore:
+      - 'docs/**'
   pull_request:
+    paths-ignore:
+      - 'docs/**'
 
 env:
-  POETRY_VIRTUALENVS_CREATE: false
+  POETRY_VIRTUALENVS_CREATE: true
 
 jobs:
-  template_test:
+  template_test_all_unit_test_options:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.8, 3.7, 3.6]
+        option: [pytest, unittest]
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python 3.8
         uses: actions/setup-python@v1
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: 3.8
       - name: Install tools (Poetry)
         uses: Gr1N/setup-poetry@v2
-      - name: Install dependencies
+      - name: Complete CI/CD setup
         run: make setup-cicd
-      - name: Instantiate template
-        run: make refresh
-      - name: Install generated project's tests dependencies
-        run: make -C build/a_generated_python_project install-test-dependencies
-      - name: Run generated project's tests
-        run: make -C build/a_generated_python_project test
+      - name: Install template generation dependencies
+        run: make install-template-generation-dependencies
+      - name: Instantiate template and run generated project's tests
+        run: make test-generated-project OPTION=${{ matrix.option }}
 
-  template_bdd:
+  template_bdd_all_cli_options:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.8, 3.7, 3.6]
+        option: [cli-cleo, cli-click, cli-argparse, cli-none]
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python 3.8
         uses: actions/setup-python@v1
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: 3.8
       - name: Install tools (Poetry)
         uses: Gr1N/setup-poetry@v2
-      - name: Install dependencies
+      - name: Complete CI/CD setup
         run: make setup-cicd
-      - name: Instantiate template
-        run: make refresh
-      - name: Install generated project's bdd tests dependencies
-        run: make -C build/a_generated_python_project install-bdd-dependencies
-      - name: Run generated project's bdd tests
-        run: make -C build/a_generated_python_project bdd
+      - name: Install template generation dependencies
+        run: make install-template-generation-dependencies
+      - name: Instantiate template and run generated project's bdd tests
+        run: make test-generated-project OPTION=${{ matrix.option }}
 
-  template_format:
+  template_format_all_options:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        option: [cli-cleo, cli-click, cli-argparse, cli-none, pytest, unittest]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - name: Install tools (Poetry)
+        uses: Gr1N/setup-poetry@v2
+      - name: Complete CI/CD setup
+        run: make setup-cicd
+      - name: Install template generation dependencies
+        run: make install-template-generation-dependencies
+      - name: Instantiate template and run generated project's format checks
+        run: make format-generated-project OPTION=${{ matrix.option }}
+
+  template_lint_default_options:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -64,16 +84,14 @@ jobs:
           python-version: 3.8
       - name: Install tools (Poetry)
         uses: Gr1N/setup-poetry@v2
-      - name: Install dependencies
+      - name: Complete CI/CD setup
         run: make setup-cicd
-      - name: Instantiate template
-        run: make refresh
-      - name: Install generated project's format dependencies
-        run: make -C build/a_generated_python_project install-format-dependencies
-      - name: Run generated project's format checks
-        run: make -C build/a_generated_python_project format-check
+      - name: Install template generation dependencies
+        run: make install-template-generation-dependencies
+      - name: Instantiate template and run generated project's lint checks
+        run: make lint-generated-project
 
-  template_lint:
+  template_type_default_options:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -83,41 +101,20 @@ jobs:
           python-version: 3.8
       - name: Install tools (Poetry)
         uses: Gr1N/setup-poetry@v2
-      - name: Install dependencies
+      - name: Complete CI/CD setup
         run: make setup-cicd
-      - name: Instantiate template
-        run: make refresh
-      - name: Install generated project's lint dependencies
-        run: make -C build/a_generated_python_project install-lint-dependencies
-      - name: Run generated project's lint checks
-        run: make -C build/a_generated_python_project lint
-
-  template_type:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python 3.8
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.8
-      - name: Install tools (Poetry)
-        uses: Gr1N/setup-poetry@v2
-      - name: Install dependencies
-        run: make setup-cicd
-      - name: Instantiate template
-        run: make refresh
-      - name: Install generated project's type dependencies
-        run: make -C build/a_generated_python_project install-type-dependencies
-      - name: Run generated project's type checks
-        run: make -C build/a_generated_python_project type
+      - name: Install template generation dependencies
+        run: make install-template-generation-dependencies
+      - name: Instantiate template and run generated project's type checks
+        run: make type-generated-project
 
   semantic_release:
     needs:
-      - template_test
-      - template_bdd
-      - template_format
-      - template_lint
-      - template_type
+      - template_test_all_unit_test_options
+      - template_bdd_all_cli_options
+      - template_format_all_options
+      - template_lint_default_options
+      - template_type_default_options
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:

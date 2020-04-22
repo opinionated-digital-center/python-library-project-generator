@@ -8,13 +8,13 @@ Installation
 Stable release
 --------------
 
-To install {{ cookiecutter.project_name }}, run this command in your terminal:
+To install {{ cookiecutter.project_title }}, run this command in your terminal:
 
 .. code-block:: console
 
     $ pip install {{ cookiecutter.project_slug }}
 
-This is the preferred method to install {{ cookiecutter.project_name }}, as it will always install the most recent stable release.
+This is the preferred method to install {{ cookiecutter.project_title }}, as it will always install the most recent stable release.
 
 If you don't have `pip`_ installed, this `Python installation guide`_ can guide
 you through the process.
@@ -26,26 +26,22 @@ you through the process.
 From sources
 ------------
 
-The sources for {{ cookiecutter.project_name }} can be downloaded from the `Github repo`_.
+The sources for {{ cookiecutter.project_title }} can be downloaded
+from the `{{cookiecutter.hosting}} repo`_.
 
-You can either clone the public repository:
-
-.. code-block:: console
-
-    $ git clone git://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}
-
-Or download the `tarball`_:
+Clone the public repository:
 
 .. code-block:: console
 
-    $ curl -OJL {{ cookiecutter.github_repo_url }}/tarball/master
+    $ git clone {{ cookiecutter.hosting_repo_url }}.git
 
-Once you have a copy of the source, you can install it with:
+Then install it with:
 
 .. code-block:: console
 
-    $ python setup.py install
+    $ cd {{ cookiecutter.project_slug }}
+    $ POETRY_VIRTUALENVS_CREATE=FALSE poetry install
 
 
-.. _Github repo: {{ cookiecutter.github_repo_url }}
-.. _tarball: {{ cookiecutter.github_repo_url }}/tarball/master
+.. _{{ cookiecutter.hosting }} repo: {{ cookiecutter.hosting_repo_url }}
+.. _tarball: {{ cookiecutter.hosting_repo_url }}/tarball/master

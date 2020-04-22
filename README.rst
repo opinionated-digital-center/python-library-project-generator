@@ -4,15 +4,15 @@ Opinionated Python Library Project Template
 
 .. image:: https://gitlab.com/opinionated-digital-center/cookiecutter-pypackage/badges/master/pipeline.svg
     :target: https://gitlab.com/opinionated-digital-center/cookiecutter-pypackage/pipelines
-    :alt: Linux build status on Gitlab CI
+    :alt: Linux build status on GitLab CI
 
-* GitHub repo: https://github.com/opinionated-digital-center/cookiecutter-pypackage/
+* {{ cookiecutter.hosting }} repo: {{ cookiecutter.hosting_repo_url }}
 * Free software: MIT license
 
 Features
 --------
 Fully working scaffold with the following out-of-the-box and running features (although
-external environments like Gitlab-CI_, PyPI_ and `Read the Docs`_ require to be set up
+external environments like GitLab-CI_, PyPI_ and `Read the Docs`_ require to be set up
 separately):
 
 * Pytest_: Unit tests
@@ -33,13 +33,13 @@ separately):
 * Tox_ testing: Set up to easily test for Python 3.6, 3.7, 3.8 and used as single source
   for all your test invocations
 * Sphinx_ docs: Documentation ready for generation with, for example, `Read the Docs`_
-* Gitlab-CI_: CI-CD pipeline with:
+* GitLab-CI_: CI-CD pipeline with:
 
   * Test phase running all tests in parallel jobs
   * Release phase (see semantic-release below)
 
 * Semantic-release_: Pre-configured version bumping, changelog generation, auto-release
-  to PyPI_ and Gitlab (yes... not a Python written tool... but works *really* well and
+  to PyPI_ and GitLab (yes... not a Python written tool... but works *really* well and
   has way more advanced features than any of the existing Python tools)
 * Command line interface (optional) using Cleo_ (default), Click_ or Argparse_
 
@@ -97,9 +97,9 @@ Then:
 
     $ make setup-dev-env-full
 
-* Create a repo on Github or Gitlab (cloud or hosted) and push your local repo to it.
-* If you did not use Gitlab for hosting your project, you need to
-  `create a pipeline on Gitlab.com
+* Create a repo on GitHub or GitLab (cloud or hosted) and push your local repo to it.
+* If you did not use GitLab for hosting your project, you need to
+  `create a pipeline on GitLab.com
   <https://docs.gitlab.com/ee/ci/ci_cd_for_external_repos/>`_.
 
 .. |ss| raw:: html
@@ -110,9 +110,9 @@ Then:
 
    </strike>
 
-* Configure your `Gitlab CI project environment variables <https://docs.gitlab.com/ee/ci/variables/#types-of-variables>`_ with the following variables:
+* Configure your `GitLab CI project environment variables <https://docs.gitlab.com/ee/ci/variables/#types-of-variables>`_ with the following variables:
 
-  * For Gitlab publishing, follow the `doc for @semantic-release/gitlab <https://github.com/semantic-release/gitlab#configuration>`_, and set:
+  * For GitLab publishing, follow the `doc for @semantic-release/gitlab <https://github.com/semantic-release/gitlab#configuration>`_, and set:
 
     * ``GITLAB_TOKEN``: Don't forget to `mask
       <https://docs.gitlab.com/ee/ci/variables/#masked-variables>`_ it.
@@ -192,7 +192,7 @@ make my own packaging experience better.
 .. _Make: https://www.gnu.org/software/make/
 .. _Poetry: https://python-poetry.org/
 .. _Pyenv: https://github.com/pyenv/pyenv/wiki
-.. _Gitlab-CI: https://docs.gitlab.com/ee/ci/
+.. _GitLab-CI: https://docs.gitlab.com/ee/ci/
 .. _Travis-CI: http://travis-ci.org/
 .. _Tox: http://testrun.org/tox/
 .. _Sphinx: http://sphinx-doc.org/

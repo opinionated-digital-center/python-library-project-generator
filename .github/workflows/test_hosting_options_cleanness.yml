@@ -1,0 +1,30 @@
+name: Test hosting generation option cleanness
+
+on:
+  pull_request:
+    paths:
+      - 'hooks/*'
+      - 'cookiecutter.json'
+      - '{{cookiecutter.project_slug}}/Makefile'
+      - '{{cookiecutter.project_slug}}/pyproject.toml'
+      - '{{cookiecutter.project_slug}}/*.rst'
+      - '{{cookiecutter.project_slug}}/*.md'
+      - '{{cookiecutter.project_slug}}/docs/installation.rst'
+
+jobs:
+  gitlab-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - name: Install tools (Poetry)
+        uses: Gr1N/setup-poetry@v2
+      - name: Complete CI/CD setup
+        run: make setup-cicd
+      - name: Install test dependencies
+        run: make install-test-dependencies
+      - name: Run GitLab cleanness test
+        run: make test-gitlab-cleanness

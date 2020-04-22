@@ -16,7 +16,7 @@ description = "{{ cookiecutter.project_short_description }}"
 {%- if cookiecutter.open_source_license in license_classifiers %}
 license = "{{ cookiecutter.open_source_license }}"
 {%- endif %}
-homepage = "{{ cookiecutter.github_repo_url }}"
+homepage = "{{ cookiecutter.hosting_repo_url }}"
 authors = ["{{ cookiecutter.full_name.replace('\"', '\\\"') }} <{{ cookiecutter.email }}>"]
 packages = [
     { include = "{{ cookiecutter.project_package_name }}" },
@@ -52,7 +52,7 @@ pytest-asyncio = {version = "^0.10.0", optional = true}
 {%- endif %}
 # Optional dependencies to be part of `bdd` extra
 behave = {version = "^1.2", optional = true}
-PyHamcrest = {version = "^1.9", optional = true}
+PyHamcrest = {version = "^2.0", optional = true}
 # Optional dependencies to be part of `lint` extra
 flake8 = {version = "^3.7", optional = true}
 flake8-bugbear = {version = "^19.8.0", optional = true}
@@ -88,7 +88,7 @@ tox-pyenv = "^1.1"
 rope = "^0.14.0"
 
 [tool.poetry.extras]
-test = ["pytest", "pytest-cov", "pytest-mock", "pytest-html", "pytest-asyncio", "PyHamcrest"]
+test = [{{'"pytest", "pytest-cov", "pytest-mock", "pytest-html", "pytest-asyncio", ' if cookiecutter.use_pytest == "y" else ''}}"PyHamcrest"]
 bdd = ["behave", "PyHamcrest"]
 lint = ["flake8", "flake8-bugbear", "pydocstyle", "pylint", "yapf"]
 type = ["mypy"]
@@ -99,7 +99,7 @@ repl = ["bpython"]
 {%- if "no" not in cookiecutter.command_line_interface|lower %}
 
 [tool.poetry.scripts]
-{{ cookiecutter.project_package_name }} = "{{ cookiecutter.project_package_name }}.cli:main"
+{{ cookiecutter.project_slug }} = "{{ cookiecutter.project_package_name }}.cli:main"
 {%- endif %}
 
 [tool.isort]
@@ -110,10 +110,10 @@ include_trailing_comma = true
 use_parentheses = true
 force_grid_wrap = 0
 line_length = 88
-{%- if cookiecutter.command_line_interface|lower == "cleo" or cookiecutter.command_line_interface|lower == "click" %}
-known_third_party = ["behave", "{{ cookiecutter.command_line_interface|lower }}", "hamcrest"{% if cookiecutter.use_pytest == "y" %}, "pytest"{%- endif %}, "six", "toml"]
-{% else %}
-known_third_party = ["behave", "hamcrest"{% if cookiecutter.use_pytest == "y" %}, "pytest"{%- endif %}, "six", "toml"]
+{%- if cookiecutter.command_line_interface|lower == "none" %}
+known_third_party = ["behave", "six", "toml"]
+{%- else %}
+known_third_party = ["behave"{{', "{}"'.format(cookiecutter.command_line_interface.lower()) if cookiecutter.command_line_interface in ['Click', 'Cleo'] else ''}}, "hamcrest", "six", "toml"]
 {%- endif %}
 
 [tool.black]
