@@ -1,3 +1,10 @@
+# [0.3.0](https://github.com/opinionated-digital-center/python-library-project-generator/compare/v0.2.0...v0.3.0) (2020-04-22)
+
+
+### Features
+
+* toc and gitlab pipeline based on make + full gitlab pipeline test ([f43990a](https://github.com/opinionated-digital-center/python-library-project-generator/commit/f43990a5bc558f0cc25737ffc8b256ddbbbf8c15))
+
 # [0.2.0](https://github.com/opinionated-digital-center/python-library-project-generator/compare/v0.1.0...v0.2.0) (2020-04-15)
 
 
