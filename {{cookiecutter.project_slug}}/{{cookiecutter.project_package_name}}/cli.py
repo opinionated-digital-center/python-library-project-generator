@@ -1,20 +1,23 @@
 """Console script for {{cookiecutter.project_package_name}}."""
 
-{%- if cookiecutter.command_line_interface|lower == "argparse" %}
+{% if cookiecutter.command_line_interface|lower == "argparse" -%}
 import argparse
 {%- endif %}
 import sys
-{%- if cookiecutter.command_line_interface|lower == "cleo" %}
-
+{% if cookiecutter.command_line_interface|lower == "cleo" %}
 import cleo
-
-from . import __version__
-{%- elif cookiecutter.command_line_interface|lower == "click" %}
-
+{% elif cookiecutter.command_line_interface|lower == "click" %}
 import click
-{%- endif %}
+{% endif -%}
 
 {% if cookiecutter.command_line_interface|lower == "cleo" %}
+from . import __version__
+{%- endif %}
+from .core import hello_world
+
+{%- if cookiecutter.command_line_interface|lower == "cleo" %}
+
+
 class HelloCommand(cleo.Command):
     """
     First Command
@@ -23,31 +26,33 @@ class HelloCommand(cleo.Command):
     """
 
     def handle(self):
-        self.line(
-            "Replace this message by putting your code into "
-            "{{ cookiecutter.project_package_name }}.cli.main)"
-        )
-        self.line("See cleo documentation at https://cleo.readthedocs.io/en/latest/")
+        self.line(hello_world())
 
 
 class Application(cleo.Application):
     def __init__(self):
-        super().__init__("{{ cookiecutter.project_name }}", __version__)
+        super().__init__("{{ cookiecutter.project_title }}", __version__)
 
         self.add(HelloCommand())
 
 
 def main(args=None):
     return Application().run()
-{% elif cookiecutter.command_line_interface|lower == "click" %}
-@click.command()
+{%- elif cookiecutter.command_line_interface|lower == "click" %}
+
+
+@click.group()
 def main(args=None):
-    """Console script for {{cookiecutter.project_package_name}}."""
-    click.echo("Replace this message by putting your code into "
-               "{{cookiecutter.project_package_name}}.cli.main")
-    click.echo("See click documentation at https://click.palletsprojects.com/")
+    """Console script for a_generated_python_project."""
     return 0
+
+
+@main.command()
+def hello():
+    click.echo(hello_world())
 {%- elif cookiecutter.command_line_interface|lower == "argparse" %}
+
+
 def main():
     """Console script for {{cookiecutter.project_package_name}}."""
     parser = argparse.ArgumentParser()
@@ -55,10 +60,10 @@ def main():
     args = parser.parse_args()
 
     print("Arguments: " + str(args._))
-    print("Replace this message by putting your code into "
-          "{{cookiecutter.project_package_name}}.cli.main")
+    print(hello_world())
     return 0
 {%- endif %}
+
 
 if __name__ == "__main__":
     sys.exit(main())  # pragma: no cover

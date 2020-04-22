@@ -46,7 +46,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = '{{ cookiecutter.project_name }}'
+project = '{{ cookiecutter.project_title }}'
 copyright = "{% now 'local', '%Y' %}, {{ cookiecutter.full_name }}"
 author = "{{ cookiecutter.full_name }}"
 
@@ -100,7 +100,7 @@ html_static_path = ['_static']
 # -- Options for HTMLHelp output ---------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = '{{ cookiecutter.project_slug }}doc'
+htmlhelp_basename = '{{ cookiecutter.project_slug }}-doc'
 
 
 # -- Options for LaTeX output ------------------------------------------
@@ -128,7 +128,7 @@ latex_elements = {
 # [howto, manual, or own class]).
 latex_documents = [
     (master_doc, '{{ cookiecutter.project_slug }}.tex',
-     '{{ cookiecutter.project_name }} Documentation',
+     '{{ cookiecutter.project_title }} Documentation',
      '{{ cookiecutter.full_name }}', 'manual'),
 ]
 
@@ -139,7 +139,7 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     (master_doc, '{{ cookiecutter.project_slug }}',
-     '{{ cookiecutter.project_name }} Documentation',
+     '{{ cookiecutter.project_title }} Documentation',
      [author], 1)
 ]
 
@@ -151,7 +151,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     (master_doc, '{{ cookiecutter.project_slug }}',
-     '{{ cookiecutter.project_name }} Documentation',
+     '{{ cookiecutter.project_title }} Documentation',
      author,
      '{{ cookiecutter.project_slug }}',
      'One line description of project.',

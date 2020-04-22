@@ -49,10 +49,10 @@ help:
 	@echo "\tsetup-dev-host - setup dev requirements"
 	@echo "\tsetup-pre-commit-hooks - setup pre-commit hooks"
 	@echo "\tsetup-release-tools: - setup tools needed for releasing package"
-	@echo "\tsetup-cicd-test-stage-github: - setup tools needed for CI/CD test stage (GitHub)"
-	@echo "\tsetup-cicd-release-stage-github: - setup tools needed for CI/CD release stage (GitHub)"
-	@echo "\tsetup-cicd-test-stage-gitlab: - setup tools needed for CI/CD test stage (GitLab)"
-	@echo "\tsetup-cicd-release-stage-gitlab: - setup tools needed for CI/CD release stage (GitLab)"
+{%- if cookiecutter.hosting == "GitLab" %}
+	@echo "\tsetup-cicd-test-stage: - setup tools needed for CI/CD test stage"
+{%- endif %}
+	@echo "\tsetup-cicd-release-stage: - setup tools needed for CI/CD release stage"
 	@echo ""
 	@echo "MAIN TARGETS:"
 	@echo "\tclean - remove all build, test, coverage and Python artifacts"
@@ -124,17 +124,16 @@ setup-dev-host:
 setup-pre-commit-hooks:
 	pre-commit install --hook-type pre-commit
 
-setup-release-tools-common:
+setup-release-tools:
 	npm install -g semantic-release@"^17.0.4"
 	npm install -g @semantic-release/changelog@"^5.0.1"
 	npm install -g @semantic-release/exec@"^5.0.0"
 	npm install -g @semantic-release/git@"^9.0.0"
-
-setup-release-tools-gitlab: setup-release-tools-common
+{%- if cookiecutter.hosting == "GitLab" %}
 	npm install -g @semantic-release/gitlab@"^6.0.3"
-
-setup-release-tools-github: setup-release-tools-common
+{%- else %}
 	npm install -g @semantic-release/github@"^7.0.5"
+{%- endif %}
 
 #################################################################
 # setting dependencies for automation (tox, cicd)
@@ -163,23 +162,20 @@ install-docs-dependencies:
 # setting up ci-cd env
 #################################################################
 
+{% if cookiecutter.hosting == "GitLab" -%}
 setup-cicd-python3:
 	update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 	curl -sSL  https://bootstrap.pypa.io/get-pip.py | python
-
-setup-cicd-tox:
-	pip install tox
 
 setup-cicd-poetry:
 	curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
 	. $(HOME)/.poetry/env && poetry config virtualenvs.create false
 	echo "WARNING: you still need to source $$HOME/.poetry/env to access poetry's executable"
 
-setup-cicd-test-stage-gitlab: setup-cicd-poetry
+setup-cicd-test-stage: setup-cicd-poetry
 
-setup-cicd-release-stage-gitlab: setup-cicd-python3 setup-cicd-poetry setup-release-tools-gitlab
-
-setup-cicd-release-stage-github: setup-release-tools-github
+setup-cicd-release-stage: setup-cicd-python3 setup-cicd-poetry setup-release-tools
+{%- endif %}
 
 
 #################################################################
@@ -245,7 +241,7 @@ tox-lint:
 #################################################################
 
 seed-isort:
-	-poetry run seed-isort-config
+	poetry run seed-isort-config
 
 isort:
 	poetry run isort -rc $(PACKAGE_DIR) tests features -vb
@@ -277,7 +273,11 @@ tox-type:
 #################################################################
 
 test:
+{%- if cookiecutter.use_pytest == "y" %}
 	poetry run pytest --cov=$(PACKAGE_DIR) --cov-report=html --cov-report=term tests
+{%- else %}
+	poetry run python -m unittest discover tests
+{%- endif %}
 
 tox-test: py
 

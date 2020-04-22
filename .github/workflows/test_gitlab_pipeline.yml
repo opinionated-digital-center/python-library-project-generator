@@ -6,6 +6,9 @@ on:
       - '{{cookiecutter.project_slug}}/Makefile'
       - '{{cookiecutter.project_slug}}/.gitlab-ci.yml'
 
+env:
+  POETRY_VIRTUALENVS_CREATE: false
+
 jobs:
   gitlab-ci:
     runs-on: ubuntu-latest
@@ -15,8 +18,12 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: 3.8
-      - name: Install dependencies
-        run: make setup-cicd-pipelines-tests
+      - name: Install tools (Poetry)
+        uses: Gr1N/setup-poetry@v2
+      - name: Complete CI/CD setup
+        run: make setup-cicd
+      - name: Install GitLab pipeline test dependencies
+        run: make install-gitlab-pipelines-test-dependencies
       - name: Run GitLab pipeline test
         env:
           PIPELINE_GIT_NAME: ${{ secrets.PIPELINE_GIT_NAME }}

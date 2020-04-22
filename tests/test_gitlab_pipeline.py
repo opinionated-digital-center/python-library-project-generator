@@ -302,9 +302,15 @@ def verify_release_created(gitlab_project: Project, pipeline: ProjectPipeline) -
 
 
 def verify_package_published_to_pypi(pypi_name: str, release_number: str) -> None:
-    time.sleep(5.)
-    testpypi_package_info = urllib.request.urlopen(
-        f"https://test.pypi.org/pypi/{pypi_name}/json"
-    ).read()
-    testpypi_package_version = json.loads(testpypi_package_info)['info']['version']
+    testpypi_package_version = ""
+    start_time = time.time()
+    timeout = 30
+
+    while testpypi_package_version != release_number and time.time() < start_time + timeout:
+        time.sleep(2.)
+        testpypi_package_info = urllib.request.urlopen(
+            f"https://test.pypi.org/pypi/{pypi_name}/json"
+        ).read()
+        testpypi_package_version = json.loads(testpypi_package_info)['info']['version']
+
     assert_that(testpypi_package_version, equal_to(release_number))
