@@ -66,10 +66,11 @@ isort = {version = "^4.3", optional = true}
 seed-isort-config = {version = "^1.9.3", optional = true}
 black = {version = "stable", optional = true, allow-prereleases = true}
 # Optional dependencies to be part of `docs` extra
-sphinx = {version = "^2.3.0", optional = true}
-sphinx-autodoc-typehints = {version = "^1.10.3", optional = true}
-sphinx-autobuild = {version = "^0.7.1", optional = true}
-sphinx_rtd_theme = {version = "^0.4.3", optional = true}
+sphinx = {version = "^2.3", optional = true}
+sphinx-autodoc-typehints = {version = "^1.10", optional = true}
+sphinx-autobuild = {version = "^0.7", optional = true}
+sphinx_rtd_theme = {version = "^0.4", optional = true}
+m2r = {version = "^0.2", optional = true}
 # Optional dependencies to be part of `repl` extra
 bpython = {version = "^0.18", optional = true}
 # Non optional dependendies
@@ -93,7 +94,7 @@ bdd = ["behave", "PyHamcrest"]
 lint = ["flake8", "flake8-bugbear", "pydocstyle", "pylint", "yapf"]
 type = ["mypy"]
 format = ["isort", "seed-isort-config", "black"]
-docs= ["sphinx", "sphinx-autodoc-typehints", "sphinx-autobuild", "sphinx_rtd_theme"]
+docs= ["m2r", "sphinx", "sphinx-autodoc-typehints", "sphinx-autobuild", "sphinx_rtd_theme"]
 repl = ["bpython"]
 
 {%- if "no" not in cookiecutter.command_line_interface|lower %}

@@ -1,3 +1,5 @@
+{% set merge_or_pull = "merge" if cookiecutter.hosting == "GitLab" else "pull" -%}
+{% set issues_suffix = "-/issues" if cookiecutter.hosting == "GitLab" else "issues" -%}
 .. highlight:: shell
 
 ============
@@ -15,7 +17,7 @@ Types of Contributions
 Report Bugs
 ~~~~~~~~~~~
 
-Report bugs at {{ cookiecutter.hosting_repo_url }}/issues.
+Report bugs at {{ cookiecutter.hosting_repo_url }}/{{ issues_suffix }}.
 
 If you are reporting a bug, please include:
 
@@ -45,7 +47,8 @@ articles, and such.
 Submit Feedback
 ~~~~~~~~~~~~~~~
 
-The best way to send feedback is to file an issue at {{ cookiecutter.hosting_repo_url }}/issues.
+The best way to send feedback is to file an issue at
+{{ cookiecutter.hosting_repo_url }}/{{ issues_suffix }}.
 
 If you are proposing a feature:
 
@@ -100,18 +103,18 @@ Setup (for Mac)
 6. Commit your changes and push your branch to {{ cookiecutter.hosting }}::
 
     $ git add .
-    $ git commit -m "Your detailed description of your changes."
+    $ git commit -m "[feat|fix|chore|...]: your detailed description of your changes"
     $ git push --set-upstream origin name-of-your-bugfix-or-feature
 
-7. Submit a {{ "merge" if cookiecutter.hosting == "GitLab" else "pull" }} request through the {{ cookiecutter.hosting }} website.
+7. Submit a {{ merge_or_pull }} request through the {{ cookiecutter.hosting }} website.
 
-Pull Request Guidelines
------------------------
+{{ merge_or_pull }} Request Guidelines
+{% for _ in merge_or_pull %}-{% endfor %}-------------------
 
-Before you submit a pull request, check that it meets these guidelines:
+Before you submit a {{ merge_or_pull.capitalize() }} request, check that it meets these guidelines:
 
-1. The pull request should include tests.
-2. If the pull request adds functionality, the docs should be updated. Put
+1. The {{ merge_or_pull }} request should include tests.
+2. If the {{ merge_or_pull }} request adds functionality, the docs should be updated. Put
    your new functionality into a function with a docstring, and add the
    feature to the list in README.rst.
-3. The pull request should work for Python 3.6, 3.7 and 3.8.
+3. The {{ merge_or_pull }} request should pass on all tests and checks of the pipeline.

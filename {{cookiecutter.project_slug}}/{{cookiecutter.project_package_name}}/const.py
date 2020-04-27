@@ -1,1 +1,1 @@
-"""Package constants"""
+"""Package constants."""

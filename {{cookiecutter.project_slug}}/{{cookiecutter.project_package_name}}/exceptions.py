@@ -1,8 +1,10 @@
-"""All package specific exceptions"""
+"""All package specific exceptions."""
 
 
-class {{ cookiecutter.project_package_name.capitalize() }}Error(Exception):
+class {% for x in cookiecutter.project_package_name.split("_") -%}
+{{ x.capitalize() }}
+{%- endfor %}Error(Exception):
     """
     Base exception for errors raised by
-    {{ cookiecutter.project_package_name }}
+    {{ cookiecutter.project_package_name }}.
     """

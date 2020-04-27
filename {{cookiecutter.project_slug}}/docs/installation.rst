@@ -44,4 +44,3 @@ Then install it with:
 
 
 .. _{{ cookiecutter.hosting }} repo: {{ cookiecutter.hosting_repo_url }}
-.. _tarball: {{ cookiecutter.hosting_repo_url }}/tarball/master

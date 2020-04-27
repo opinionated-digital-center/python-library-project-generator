@@ -1,32 +1,42 @@
 {% set is_open_source = cookiecutter.open_source_license != "Not open source" -%}
-{% for _ in cookiecutter.project_title %}={% endfor %}
-{{ cookiecutter.project_title }}
-{% for _ in cookiecutter.project_title %}={% endfor %}
 
-{% if is_open_source %}
+==============={% for _ in cookiecutter.project_title %}={% endfor %}
+Introdution to {{ cookiecutter.project_title }}
+==============={% for _ in cookiecutter.project_title %}={% endfor %}
+
+{% if cookiecutter.hosting == "GitLab" -%}
+.. image:: {{ cookiecutter.hosting_repo_url }}/badges/master/pipeline.svg
+    :target: {{ cookiecutter.hosting_repo_url }}/pipelines
+
+{% endif -%}
+{% if is_open_source -%}
+{% if cookiecutter.pypi_hosting == "PyPi" -%}
 .. image:: https://img.shields.io/pypi/v/{{ cookiecutter.project_slug }}.svg
-        :target: https://pypi.python.org/pypi/{{ cookiecutter.project_slug }}
+        :target: https://pypi.org/project/{{ cookiecutter.project_slug }}
 
-.. image:: https://img.shields.io/travis/{{ cookiecutter.hosting_username }}/{{ cookiecutter.project_slug }}.svg
-        :target: https://travis-ci.com/{{ cookiecutter.hosting_username }}/{{ cookiecutter.project_slug }}
+.. image:: https://img.shields.io/pypi/pyversions/{{ cookiecutter.project_slug }}.svg
+        :target: https://pypi.org/project/{{ cookiecutter.project_slug }}
 
+.. image:: https://img.shields.io/pypi/l/{{ cookiecutter.project_slug }}.svg
+        :target: https://pypi.org/project/{{ cookiecutter.project_slug }}
+
+{% endif -%}
 .. image:: https://readthedocs.org/projects/{{ cookiecutter.project_slug }}/badge/?version=latest
         :target: https://{{ cookiecutter.project_slug }}.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
-{%- endif %}
 
-{% if cookiecutter.add_pyup_badge == "y" %}
-.. image:: https://pyup.io/repos/{{ cookiecutter.hosting.lower() }}/{{ cookiecutter.hosting_username }}/{{ cookiecutter.project_slug }}/shield.svg
-     :target: https://pyup.io/repos/{{ cookiecutter.hosting.lower() }}/{{ cookiecutter.hosting_username }}/{{ cookiecutter.project_slug }}/
-     :alt: Updates
-[{% endif %}
-]
+{% if cookiecutter.pypi_hosting == "TestPyPi" -%}
+Project `published on TestPyPi <https://test.pypi.org/project/{{ cookiecutter.project_slug }}>`_.
+
+{% endif -%}
+{% endif -%}
 
 {{ cookiecutter.project_short_description }}
 
-{% if is_open_source %}
+{% if is_open_source -%}
 * Free software license: {{ cookiecutter.open_source_license }}
-{% endif %}* Documentation: https://{{ cookiecutter.project_slug}}.readthedocs.io
+* Documentation: https://{{ cookiecutter.project_slug}}.readthedocs.io
+{%- endif %}
 
 Features
 --------
@@ -36,7 +46,8 @@ Features
 Credits
 -------
 
-This package was created with Cookiecutter_ and the `opinionated-digital-center/cookiecutter-pypackage`_ project template.
+This package was created with Cookiecutter_ and the
+`opinionated-digital-center/python-library-project-generator`_ project template.
 
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
-.. _`opinionated-digital-center/cookiecutter-pypackage`: https://github.com/opinionated-digital-center/python-library-project-generator
+.. _`opinionated-digital-center/python-library-project-generator`: https://github.com/opinionated-digital-center/python-library-project-generator

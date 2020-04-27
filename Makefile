@@ -66,8 +66,13 @@ clean:
 # generate project
 #################################################################
 
-refresh: clean
+overwrite:
+	# `rm` necessary due to bug in cookicutter, which does not overwrite all directories
+	rm -rf $(COOKIECUTTER_OUTPUT_DIR)/behave* $(COOKIECUTTER_OUTPUT_DIR)/features
 	poetry run cookiecutter --overwrite-if-exists --default-config --no-input -o $(BUILD_DIR) .
+
+refresh: clean
+	poetry run cookiecutter --default-config --no-input -o $(BUILD_DIR) .
 
 refresh-: refresh
 

@@ -79,8 +79,9 @@ def test_gitlab_pipeline(tmp_path):
     project_name = project_slug.replace("_", "-")
 
     gitlab_client = initialise_gitlab_client()
+    hosting_namespace = "opinionated-digital-center/testing-area"
     gitlab_project = gitlab_client.projects.get(
-        f"opinionated-digital-center/testing-area/{project_name}"
+        f"{hosting_namespace}/{project_name}"
     )
     repo = initialise_git_repo(gitlab_project.http_url_to_repo, tmp_path / project_slug)
 
@@ -92,8 +93,10 @@ def test_gitlab_pipeline(tmp_path):
     cookiecutter(
         ".",
         extra_context={
-            "project_name": "Generated Python Project GitLab",
-            "project_slug": project_slug
+            "project_title": "Generated Python Project GitLab",
+            "project_slug": project_slug,
+            "hosting_namespace": hosting_namespace,
+            "pypi_hosting": "TestPyPi",
         },
         no_input=True,
         default_config=True,
@@ -217,7 +220,7 @@ def pull_and_prepare_branch(repo: Repo, start_time_str: str) -> Reference:
     branch = repo.create_head(f"b_{start_time_str}")
     # switch to branch
     branch.checkout()
-    repo.git.rm("-r", ".")
+    repo.git.rm("-r", ".", ":!CHANGELOG.md")
     repo.index.commit("remove all")
     return branch
 

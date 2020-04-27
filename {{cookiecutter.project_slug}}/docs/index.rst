@@ -1,5 +1,5 @@
 Welcome to {{ cookiecutter.project_title }}'s documentation!
-======================================
+=========={% for _ in cookiecutter.project_title %}={% endfor %}==================
 
 .. toctree::
    :maxdepth: 2
@@ -10,8 +10,10 @@ Welcome to {{ cookiecutter.project_title }}'s documentation!
    usage
    modules
    contributing
-   {% if cookiecutter.create_author_file == 'y' -%}authors
-   {% endif -%}history
+{%- if cookiecutter.create_author_file == 'y' %}
+   authors
+{%- endif %}
+   history
 
 Indices and tables
 ==================
