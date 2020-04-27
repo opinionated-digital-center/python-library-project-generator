@@ -21,6 +21,7 @@ IGNORED_CONTENT = [
     "github.com/psf/",
     "github.com/audreyr/",
     "github.com/opinionated-digital-center/python-library-project-generator",
+    "github.com/conventional-changelog",
 ]
 
 

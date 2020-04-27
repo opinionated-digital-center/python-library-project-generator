@@ -1,4 +1,4 @@
-"""core package"""
+"""Core package."""
 
 
 def hello_world():

@@ -31,6 +31,7 @@ if "{{ cookiecutter.command_line_interface|lower }}" == "none":
 if "{{ cookiecutter.open_source_license }}" == "Not open source":
     paths_to_remove += [
         "LICENSE",
+        ".readthedocs.yml",
     ]
 
 if "{{ cookiecutter.hosting|lower }}" == "gitlab":

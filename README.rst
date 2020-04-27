@@ -2,50 +2,125 @@
 Opinionated Python Library Project Template
 ===========================================
 
-.. image:: https://gitlab.com/opinionated-digital-center/cookiecutter-pypackage/badges/master/pipeline.svg
-    :target: https://gitlab.com/opinionated-digital-center/cookiecutter-pypackage/pipelines
-    :alt: Linux build status on GitLab CI
+.. image:: https://github.com/opinionated-digital-center/python-library-project-generator/workflows/Test%20and%20make%20release/badge.svg
+    :target: https://github.com/opinionated-digital-center/python-library-project-generator/actions?query=workflow%3A%22Test+and+make+release%22
 
-* {{ cookiecutter.hosting }} repo: {{ cookiecutter.hosting_repo_url }}
-* Free software: MIT license
+.. image:: https://github.com/opinionated-digital-center/python-library-project-generator/workflows/Test%20GitLab%20Pipeline/badge.svg
+    :target: https://github.com/opinionated-digital-center/python-library-project-generator/actions?query=workflow%3A%22Test+GitLab+Pipeline%22
 
-Features
---------
-Fully working scaffold with the following out-of-the-box and running features (although
-external environments like GitLab-CI_, PyPI_ and `Read the Docs`_ require to be set up
-separately):
+* GitHub repo: https://github.com/opinionated-digital-center/python-library-project-generator .
+* Free software: MIT license.
 
-* Pytest_: Unit tests
-* Behave_: BDD/Functional tests
-* Flake8_: Linting/Style guide enforcement
-* Black_ & isort_: Uncompromising formatting and automated import sorting
-* Mypy_: Static typing
-* Coverage_: Code coverage
-* Poetry_: Easy packaging and dependency management, set up to isolate the different
-  test dependencies (unit tests, bdd, ...) for speedy test runs
-* Pyenv_: Simple Python version management to install multiple versions on your host
-* Make_: Used as single doorway to all your tasks:
+The "Opinionated Python Library Project Template" is a fully tested, feature rich
+`Cookiecutter`_ scaffold to kick start your Python library and command line interface
+development.
 
-  * For setup (development environment and machine, CI/CD pipeline job environments)
-  * For test tasks
-  * For the whole development and release lifecycle
+It is "opinionated" as it reflects strong structural and tooling choices,
+which we believe help developers being more effective within Digital Centers. It can
+however seamlessly be used for Open Source development (works also out-of-the-box with
+`gitlab.com <https://gitlab.com>`_, `github.com <https://github.com>`_,
+`pypi.org <https://pypi.org>`_ and `readthedocs.org <https://readthedocs.org>`_,
+as a standalone project).
 
-* Tox_ testing: Set up to easily test for Python 3.6, 3.7, 3.8 and used as single source
-  for all your test invocations
-* Sphinx_ docs: Documentation ready for generation with, for example, `Read the Docs`_
-* GitLab-CI_: CI-CD pipeline with:
+In addition to the intrinsic features offered by the template (see `Features list`_
+below), the specific features that make it suitable and effective for Digital Centers
+are the abilities to:
 
-  * Test phase running all tests in parallel jobs
-  * Release phase (see semantic-release below)
+* Use self-hosted GitLab and GitHub.
+* Publish to self-hosted package repositories.
+* Reuse centralised and optimised "toolbox" items, such as:
+  * `GitLab-CI`_ pipeline elements. (available soon)
+  * `Make`_ targets. (available soon)
 
-* Semantic-release_: Pre-configured version bumping, changelog generation, auto-release
-  to PyPI_ and GitLab (yes... not a Python written tool... but works *really* well and
-  has way more advanced features than any of the existing Python tools)
-* Command line interface (optional) using Cleo_ (default), Click_ or Argparse_
+The argumentation behind the Opinionated Digital Center's choices (for this and other
+projects) are/will be gradually documented as Architecture Decision Records, either
+on `ODC's ADR repository <https://github.com/opinionated-digital-center/architecture-decision-record>`_
+for transversal decisions, or on each individual repository's ``docs/adr`` directory
+(`here <docs/adr>`_ for this project) for project related decisions.
+
+
+Fully tested features
+---------------------
+All the features of this template are fully tested through CI/CD pipelines, including:
+
+* The `Test and make release <https://github.com/opinionated-digital-center/python-library-project-generator/actions?query=workflow%3A%22Test+and+make+release%22>`_
+  pipeline to:
+
+  * Generate projects for each options of the template.
+  * Run the project's built-in tests and checks for each option specifically.
+  * Upon success, release a new version of the template.
+
+* The `Test GitLab Pipeline <https://github.com/opinionated-digital-center/python-library-project-generator/actions?query=workflow%3A%22Test+GitLab+Pipeline%22>`_
+  pipeline (GitHub available soon) to:
+
+  * Generate a project with the default options.
+  * Test that the generated project's GitLab pipeline runs successfully, including:
+
+    * Run the project's built-in tests and checks on the project's pipeline.
+    * Automatically bump the package's version following
+    `ADR-0003: Use Semantic Versioning <https://github.com/opinionated-digital-center/architecture-decision-record/blob/master/docs/adr/0003-use-semantic-versioning.md>`_,
+    based on commit messages following
+    `ADR-0005: Use Conventional Commits <https://github.com/opinionated-digital-center/architecture-decision-record/blob/master/docs/adr/0005-use-conventional-commits.md>`_).
+    * Generate the release notes.
+    * Publish the release on GitLab.
+    * Publish the released package to the package repository.
+
+
+Features list
+-------------
+Projects initialised with the template will benefit straight away from the following
+out-of-the-box and ready to use features: (note: external environments like
+GitLab-CI_, the package repository and documentation host will require to be set up
+separately)
+
+* Unit testing with Pytest_ (default) or UnitTest_.
+* BDD/Functional testing with Behave_ (includes functional cli testing with
+  `Behave4cli`_).
+* Linting/Style guide enforcement with Flake8_.
+* "Uncompromising" formatting and automated import sorting with Black_ & isort_.
+* Static typing with Mypy_.
+* Code coverage with Coverage_.
+* Packaging and dependency management with Poetry_.
+* Python versions management to install multiple versions on your host with Pyenv_.
+* Task management centralisation with Make_, for all your tasks:
+
+  * For setup (development environment and machine, CI/CD pipeline job and tasks
+    launch).
+  * For test tasks.
+  * For the whole development and release lifecycle.
+
+* Local, multi-version testing automation with Tox_.
+* CI-CD pipeline with GitLab-CI_ and `GitHub Actions`_ (available soon), including:
+
+  * A test phase running all tests in parallel jobs.
+  * A release phase (see Release cycle below).
+  * Caching (available soon).
+
+* Release cycle with Semantic-release_, including:
+
+  * Automatically bump the package's version following
+    `ADR-0003: Use Semantic Versioning <https://github.com/opinionated-digital-center/architecture-decision-record/blob/master/docs/adr/0003-use-semantic-versioning.md>`_,
+    based on commit messages following
+    `ADR-0005: Use Conventional Commits <https://github.com/opinionated-digital-center/architecture-decision-record/blob/master/docs/adr/0005-use-conventional-commits.md>`_).
+  * Generate the release notes.
+  * Publish the release on GitLab/GitHub.
+  * Publish the released package to the package repository.
+
+* Command line interface (optional), with testing, using Cleo_ (default), Click_ or
+  Argparse_.
+* Documentation generation with Sphinx_.
+* Documentation publishing to `Read the Docs`_ (publishing to GitLab and GitHub Pages
+  avaible soon).
 
 
 Quickstart
 ----------
+
+Prerequisites
+~~~~~~~~~~~~~
+
+Cookiecutter installation
++++++++++++++++++++++++++
 
 Install the latest Cookiecutter if you haven't installed it yet (this requires
 Cookiecutter 1.4.0 or higher; see the `installation doc
@@ -57,20 +132,8 @@ Cookiecutter 1.4.0 or higher; see the `installation doc
     # On linux and other systems
     $ pip install -U cookiecutter
 
-Generate a Python package project (follow the instructions)::
-
-    $ cd your/projects/root/dir
-    $ cookiecutter https://github.com/opinionated-digital-center/cookiecutter-pypackage.git
-
-Then:
-
-* Move to your newly created project's directory, initialise its `git` repo. Here
-  we also commit the generated code::
-
-    $ cd <your-project>
-    $ git init .
-    $ git add .
-    $ git commit -m 'chore: initial commit'
+PyEnv and Poetry installation
++++++++++++++++++++++++++++++
 
 * If you have not installed Pyenv_ and Poetry_ on your machine yet, you can use the
   following ``make`` target to do so::
@@ -82,25 +145,52 @@ Then:
 
     $ source ~/.bashrc
 
-  You might want to tell Poetry to create your virtualenvs in your project directory
-  (makes it easier to add the virtualenv to your IDE)::
+
+* You might want to tell Poetry to create virtual environments in the project
+  directories (makes it easier to add the virtualenv to your IDE)::
 
     $ poetry config virtualenvs.in-project true
 
+Project initialisation and development setup
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Generate a Python package project for the template::
+
+    $ cd your/projects/root/dir
+    $ cookiecutter https://github.com/opinionated-digital-center/python-library-project-generator
+
+
+* Move to your newly created project's directory, initialise its ``git`` repo. Here
+  we also commit the generated code::
+
+    $ cd <your-project>
+    $ git init .
+    $ git add --all .
+    $ git commit -m 'chore: initial commit'
+
 * Set up you development environment::
 
-    # Minimal setup
-
-    $ make setup-dev-env-minimal
-
-    # OR alternatively, full setup (allows for IDE completion)
-
+    # Full setup (installs all testing and check libraries and allows for IDE completion)
     $ make setup-dev-env-full
 
-* Create a repo on GitHub or GitLab (cloud or hosted) and push your local repo to it.
-* If you did not use GitLab for hosting your project, you need to
-  `create a pipeline on GitLab.com
-  <https://docs.gitlab.com/ee/ci/ci_cd_for_external_repos/>`_.
+
+    # Or alternatively, minimal setup (installs ``tox`` and formatting libraries only)
+    $ make setup-dev-env-minimal
+
+Hosting and pipeline setup
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Hosting setup
++++++++++++++
+
+* Create a repo on GitHub or GitLab (cloud or sefl-hosted).
+* Push your local repo to it::
+
+    $ git remote add origin https://<hosting-domain>/<your-namespace>/<your-project>.git
+    $ git push -u origin master
+
+GitLab CI specific setup
+++++++++++++++++++++++++
 
 .. |ss| raw:: html
 
@@ -110,17 +200,18 @@ Then:
 
    </strike>
 
-* Configure your `GitLab CI project environment variables <https://docs.gitlab.com/ee/ci/variables/#types-of-variables>`_ with the following variables:
+* Configure your GitLab CI project environment variables
+  (`doc <https://docs.gitlab.com/ee/ci/variables/#types-of-variables>`_)
+  with the following variables:
 
   * For GitLab publishing, follow the `doc for @semantic-release/gitlab <https://github.com/semantic-release/gitlab#configuration>`_, and set:
 
-    * ``GITLAB_TOKEN``: Don't forget to `mask
-      <https://docs.gitlab.com/ee/ci/variables/#masked-variables>`_ it.
+    * ``GITLAB_TOKEN`` (don't forget to `mask
+      <https://docs.gitlab.com/ee/ci/variables/#masked-variables>`_ it).
     * ``GITLAB_URL`` (optional - see doc).
     * ``GITLAB_PREFIX`` (optional - see doc).
 
-  * For Pypi_ publishing (requires you to `register your project with PyPI`_ first or
-    with any other equivalent Python package repository):
+  * For package publishing:
 
     * ``PYPI_REPOSITORY_NAME`` (only needed if you are using a repository other
       than ``pypi``): ``name`` for your Python package repository.
@@ -130,7 +221,7 @@ Then:
       ``my_repository``).
 
       In the remaining environment variables, ``<NAME>`` is to be replaced by
-      this repository's name, in uppercase, with "``.``" and "``-``"
+      this repository's name, in UPPERCASE, with "``.``" and "``-``"
       replaced by "``_``" (for instance ``my-repository`` or ``my.repository`` or
       ``my_repository`` all become ``MY_REPOSITORY``).
 
@@ -161,8 +252,17 @@ Then:
 * Release your package by
   `running a manual pipeline on your master branch <https://docs.gitlab.com/ee/ci/pipelines/#manually-executing-pipelines>`_.
 
-.. _register your project with PyPI: https://packaging.python.org/tutorials/packaging-projects/#uploading-the-distribution-archives
+GitHub Actions specific setup
++++++++++++++++++++++++++++++
 
+COMING SOON.
+
+Python package repository
++++++++++++++++++++++++++
+
+ * Follow the doc for your specific package repository (self-hosted, PyPi, TestPyPi,
+   other).
+ * Set up the environment variables as described in pipelines setup instructions above.
 
 Fork This / Create Your Own
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -178,12 +278,17 @@ Or Submit a Pull Request
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 We also accept pull requests on this, if they're small, atomic, and if they
-make my own packaging experience better.
+make our own packaging experience better.
 
 
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter/
+.. _Semantic Versioning: https://semver.org/
+.. _Angular Commit Message Guideline: https://github.com/angular/angular/blob/13495c6/CONTRIBUTING.md#-commit-message-guidelines
+.. _Conventional Commits specification: https://www.conventionalcommits.org/en/v1.0.0/
 .. _Pytest: https://docs.pytest.org/en/latest/
+.. _UnitTest: https://docs.python.org/3/library/unittest.html
 .. _Behave: https://behave.readthedocs.io/en/latest/
+.. _Behave4cli: https://gitlab.com/opinionated-digital-center/behave4cli
 .. _Flake8: https://flake8.pycqa.org/en/latest/
 .. _Black: https://black.readthedocs.io/en/stable/
 .. _isort: https://timothycrosley.github.io/isort/
@@ -193,7 +298,7 @@ make my own packaging experience better.
 .. _Poetry: https://python-poetry.org/
 .. _Pyenv: https://github.com/pyenv/pyenv/wiki
 .. _GitLab-CI: https://docs.gitlab.com/ee/ci/
-.. _Travis-CI: http://travis-ci.org/
+.. _GitHub Actions: https://github.com/features#ci-cd
 .. _Tox: http://testrun.org/tox/
 .. _Sphinx: http://sphinx-doc.org/
 .. _Read the Docs: https://readthedocs.io/

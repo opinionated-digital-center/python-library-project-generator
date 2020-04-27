@@ -1,5 +1,0 @@
-test:
-  stage: test
-  image: opinionateddigitalcenter/cookiecutter-pypackage-host-setup:latest
-  script:
-    - ./tests/instanciate_project_and_validate_it.sh
