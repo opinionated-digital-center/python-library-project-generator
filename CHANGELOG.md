@@ -1,3 +1,10 @@
+# [0.4.0](https://github.com/opinionated-digital-center/python-library-project-generator/compare/v0.3.0...v0.4.0) (2020-04-27)
+
+
+### Features
+
+* test all options for generating projects ([ddf9d95](https://github.com/opinionated-digital-center/python-library-project-generator/commit/ddf9d95bed1cf69e137c2d3b90ee97236431f21e))
+
 # [0.3.0](https://github.com/opinionated-digital-center/python-library-project-generator/compare/v0.2.0...v0.3.0) (2020-04-22)
 
 
