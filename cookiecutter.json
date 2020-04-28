@@ -11,8 +11,6 @@
   "pypi_username": "{{ cookiecutter.hosting_username }}",
   "version": "0.0.0",
   "use_pytest": "y",
-  "use_pypi_deployment_with_travis": "n",
-  "add_pyup_badge": "n",
   "command_line_interface": ["Cleo", "Click", "Argparse", "None"],
   "create_author_file": "y",
   "open_source_license": ["MIT", "ISC", "Apache-2.0", "GPL-3.0", "Not open source"],
