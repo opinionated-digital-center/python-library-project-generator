@@ -8,7 +8,6 @@ IGNORED_FILES = [
     "mypy.ini",
     "scripts/install_pyenv.sh",
     "scripts/install_poetry.sh",
-    "behave4cmd0/README.txt",
     "tests/test_generated_python_project_gitlab.py",
 ]
 IGNORED_CONTENT = [
