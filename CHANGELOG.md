@@ -1,3 +1,10 @@
+## [0.4.1](https://github.com/opinionated-digital-center/python-library-project-generator/compare/v0.4.0...v0.4.1) (2020-04-28)
+
+
+### Bug Fixes
+
+* **ci:** run forgotten bdd tests ([85bd7d3](https://github.com/opinionated-digital-center/python-library-project-generator/commit/85bd7d3f94e658234db2b21a192cc78466ce7fd8))
+
 # [0.4.0](https://github.com/opinionated-digital-center/python-library-project-generator/compare/v0.3.0...v0.4.0) (2020-04-27)
 
 
