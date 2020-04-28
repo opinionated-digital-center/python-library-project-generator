@@ -51,7 +51,7 @@ pytest-html = {version = "^2.0.1", optional = true}
 pytest-asyncio = {version = "^0.10.0", optional = true}
 {%- endif %}
 # Optional dependencies to be part of `bdd` extra
-behave = {version = "^1.2", optional = true}
+behave4cli = {version = "^1.1", optional = true}
 PyHamcrest = {version = "^2.0", optional = true}
 # Optional dependencies to be part of `lint` extra
 flake8 = {version = "^3.7", optional = true}
@@ -90,7 +90,7 @@ rope = "^0.14.0"
 
 [tool.poetry.extras]
 test = [{{'"pytest", "pytest-cov", "pytest-mock", "pytest-html", "pytest-asyncio", ' if cookiecutter.use_pytest == "y" else ''}}"PyHamcrest"]
-bdd = ["behave", "PyHamcrest"]
+bdd = ["behave4cli", "PyHamcrest"]
 lint = ["flake8", "flake8-bugbear", "pydocstyle", "pylint", "yapf"]
 type = ["mypy"]
 format = ["isort", "seed-isort-config", "black"]
@@ -114,7 +114,7 @@ line_length = 88
 {%- if cookiecutter.command_line_interface|lower == "none" %}
 known_third_party = ["behave", "six", "toml"]
 {%- else %}
-known_third_party = ["behave"{{', "{}"'.format(cookiecutter.command_line_interface.lower()) if cookiecutter.command_line_interface in ['Click', 'Cleo'] else ''}}, "hamcrest", "six", "toml"]
+known_third_party = ["behave", "behave4cli"{{', "{}"'.format(cookiecutter.command_line_interface.lower()) if cookiecutter.command_line_interface in ['Click', 'Cleo'] else ''}}, "six", "toml"]
 {%- endif %}
 
 [tool.black]

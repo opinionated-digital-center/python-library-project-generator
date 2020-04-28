@@ -23,8 +23,7 @@ if "{{ cookiecutter.create_author_file|lower }}" != "y":
 if "{{ cookiecutter.command_line_interface|lower }}" == "none":
     paths_to_remove += [
         os.path.join("{{ cookiecutter.project_package_name }}", "cli.py"),
-        "behave4cmd0",
-        os.path.join("features", "steps", "use_steplib_behave4cmd.py"),
+        os.path.join("features", "steps", "use_steplib_behave4cli.py"),
         os.path.join("features", "cli.feature"),
     ]
 
