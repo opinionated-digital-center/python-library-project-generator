@@ -52,7 +52,7 @@ jobs:
       - name: Install template generation dependencies
         run: make install-template-generation-dependencies
       - name: Instantiate template and run generated project's bdd tests
-        run: make test-generated-project OPTION=${{ matrix.option }}
+        run: make bdd-generated-project OPTION=${{ matrix.option }}
 
   template_format_all_options:
     runs-on: ubuntu-latest
