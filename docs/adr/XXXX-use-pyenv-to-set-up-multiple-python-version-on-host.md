@@ -16,7 +16,7 @@ POSIX unix systems.
 ## Considered Options
 
 * [PyEnv](https://github.com/pyenv/pyenv).
-* [PipEnv](* [PipEnv]()https://github.com/pypa/pipenv).
+* [PipEnv](https://github.com/pypa/pipenv).
 * Developing on virtual machine or docker containers.
 * [altinstall](https://hackersandslackers.com/multiple-versions-python-ubuntu/)
   on Ubuntu, and equivalent on other plateforms
