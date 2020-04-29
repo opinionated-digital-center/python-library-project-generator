@@ -5,20 +5,23 @@
 
 ## Context and Problem Statement
 
-Testing python projects requires must often be done on multiple versions of Python on
-the host development machine, which can be cumbersome. As a reminder, at time of
-writing, we only actively support linux, MacOS, and POSIX unix systems.
-
+It is common that multiple versions of Python need to be install on development
+machines, which can be cumbersome.
 
 ## Decision Drivers <!-- optional -->
 
+As a reminder, at time of writing, ODC only actively support linux, MacOS, and
+POSIX unix systems.
 
 ## Considered Options
 
-* [PyEnv](https://github.com/pyenv/pyenv)
+* [PyEnv](https://github.com/pyenv/pyenv).
+* [PipEnv](* [PipEnv]()https://github.com/pypa/pipenv).
+* Developing on virtual machine or docker containers.
+* [altinstall](https://hackersandslackers.com/multiple-versions-python-ubuntu/)
+  on Ubuntu, and equivalent on other plateforms
 * Install each version manually (through various means, be through package management
-  tools or by downloading and installing libraries)
-  *
+  tools or by downloading and installing libraries).
 
 ## Decision Outcome
 
