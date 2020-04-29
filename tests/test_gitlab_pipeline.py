@@ -74,15 +74,14 @@ $ git config --global credential.helper 'store --file ~/.git-credentials'
 
 
 def test_gitlab_pipeline(tmp_path):
-    project_long_title = "Python library project generator GitLab pipeline test"
-    project_slug = project_long_title.lower().replace(" ", "_").replace("-", "_")
-    project_name = project_slug.replace("_", "-")
-
     gitlab_client = initialise_gitlab_client()
+
     hosting_namespace = "opinionated-digital-center/testing-area"
-    gitlab_project = gitlab_client.projects.get(
-        f"{hosting_namespace}/{project_name}"
-    )
+    project_long_title = "Python library project generator GitLab pipeline test"
+    project_slug = project_long_title.lower().replace(" ", "-")
+
+    gitlab_project = gitlab_client.projects.get(f"{hosting_namespace}/{project_slug}")
+    logger.debug(f"Working with GitLab project {gitlab_project.web_url}")
     repo = initialise_git_repo(gitlab_project.http_url_to_repo, tmp_path / project_slug)
 
     start_time = datetime.now()
@@ -127,7 +126,7 @@ def test_gitlab_pipeline(tmp_path):
 
     release_number = verify_release_created(gitlab_project, pipeline)
 
-    verify_package_published_to_pypi(project_name, release_number)
+    verify_package_published_to_pypi(project_slug, release_number)
 
 
 def initialise_gitlab_client() -> gitlab.Gitlab:
@@ -216,12 +215,14 @@ def initialise_git_repo(repo_url: str, path: Path) -> Repo:
 
 
 def pull_and_prepare_branch(repo: Repo, start_time_str: str) -> Reference:
-    # create branch
-    branch = repo.create_head(f"b_{start_time_str}")
-    # switch to branch
+    branch_name = f"b_{start_time_str}"
+    logger.debug(f"Working with branch name '{branch_name}'")
+    branch = repo.create_head(branch_name)
+
     branch.checkout()
     repo.git.rm("-r", ".", ":!CHANGELOG.md")
     repo.index.commit("remove all")
+
     return branch
 
 
@@ -297,7 +298,8 @@ def verify_release_created(gitlab_project: Project, pipeline: ProjectPipeline) -
     release_number = None
 
     for release in gitlab_project.releases.list():
-        if release.name.startswith("v") and pipeline.created_at < release.released_at < pipeline.updated_at:
+        if release.name.startswith("v") \
+            and pipeline.created_at < release.released_at < pipeline.updated_at:
             release_number = release.tag_name[1:]
             break
     assert_that(release_number, not_(none()))

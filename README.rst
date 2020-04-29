@@ -30,7 +30,7 @@ are the abilities to:
 * Publish to self-hosted package repositories.
 * Reuse centralised and optimised "toolbox" items, such as:
 
-  * `GitLab-CI`_ pipeline elements. (available soon)
+  * GitLab-CI `pipeline templates <https://gitlab.com/opinionated-digital-center/gitlab-ci-templates/python-library/-/tree/master/templates>`_.
   * Centralised (and expandable) `Make`_ targets. (available soon)
 
 The argumentation behind the Opinionated Digital Center's choices (for this and other

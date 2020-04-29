@@ -1,3 +1,13 @@
+include:
+  - remote: "https://gitlab.com/opinionated-digital-center/gitlab-ci-templates/python-library/raw/v0.1.0/templates/.test-stage-job-setup.yml"
+  - remote: "https://gitlab.com/opinionated-digital-center/gitlab-ci-templates/python-library/raw/v0.1.0/templates/.test-stage-py.yml"
+  - remote: "https://gitlab.com/opinionated-digital-center/gitlab-ci-templates/python-library/raw/v0.1.0/templates/.test-stage-bdd.yml"
+  - remote: "https://gitlab.com/opinionated-digital-center/gitlab-ci-templates/python-library/raw/v0.1.0/templates/.test-stage-format.yml"
+  - remote: "https://gitlab.com/opinionated-digital-center/gitlab-ci-templates/python-library/raw/v0.1.0/templates/.test-stage-lint.yml"
+  - remote: "https://gitlab.com/opinionated-digital-center/gitlab-ci-templates/python-library/raw/v0.1.0/templates/.test-stage-type.yml"
+  - remote: "https://gitlab.com/opinionated-digital-center/gitlab-ci-templates/python-library/raw/v0.1.0/templates/.release-stage-job-setup.yml"
+  - remote: "https://gitlab.com/opinionated-digital-center/gitlab-ci-templates/python-library/raw/v0.1.0/templates/.release-stage-semantic-release.yml"
+
 variables:
   GIT_STRATEGY: clone
 
@@ -17,115 +27,50 @@ stages:
   - test
   - release
 
-
 #################################################################
 # test stage jobs
 #################################################################
 
-# YAML anchor containing arrays elements to be merged
-# https://stackoverflow.com/questions/24090177/how-to-merge-yaml-arrays/30683699#57209078
-# note: no dash before commands
-.setup-test-stage: &setup-test-stage |
-  # This step installs tox and poetry but it may already be installed in the python docker image
-  make setup-cicd-test-stage
-  . $HOME/.poetry/env
-
 py38:
-  stage: test
+  extends: .test-stage-py
   image: python:3.8
-  before_script:
-    - *setup-test-stage
-  script:
-    - make install-test-dependencies
-    - make test
 
 py37:
-  stage: test
+  extends: .test-stage-py
   image: python:3.7
-  before_script:
-    - *setup-test-stage
-  script:
-    - make install-test-dependencies
-    - make test
 
 py36:
-  stage: test
+  extends: .test-stage-py
   image: python:3.6
-  before_script:
-    - *setup-test-stage
-  script:
-    - make install-test-dependencies
-    - make test
 
 bdd-py38:
-  stage: test
+  extends: .test-stage-bdd
   image: python:3.8
-  before_script:
-    - *setup-test-stage
-  script:
-    - make install-bdd-dependencies
-    - make bdd
   artifacts:
     paths:
       - cucumber-report.json
     when: always
 
 bdd-py37:
-  stage: test
+  extends: .test-stage-bdd
   image: python:3.7
-  before_script:
-    - *setup-test-stage
-  script:
-    - make install-bdd-dependencies
-    - make bdd
 
 bdd-py36:
-  stage: test
+  extends: .test-stage-bdd
   image: python:3.6
-  before_script:
-    - *setup-test-stage
-  script:
-    - make install-bdd-dependencies
-    - make bdd
 
 format:
-  stage: test
-  before_script:
-    - *setup-test-stage
-  script:
-    - make install-format-dependencies
-    - make format-check
+  extends: .test-stage-format
 
 lint:
-  stage: test
-  before_script:
-    - *setup-test-stage
-  script:
-    - make install-lint-dependencies
-    - make lint
+  extends: .test-stage-lint
 
 type:
-  stage: test
-  before_script:
-    - *setup-test-stage
-  script:
-    - make install-type-dependencies
-    - make type
+  extends: .test-stage-type
 
 #################################################################
 # release stage jobs
 #################################################################
 
 semantic_release:
-  stage: release
-  rules:
-    - if: '$CI_COMMIT_TITLE =~ /^chore\(release\): \d*\.\d*\.\d.*/'
-      when: never
-    - if: $CI_COMMIT_BRANCH == "master"
-      when: on_success
-  image: node:12-buster
-  before_script:
-    - make setup-cicd-release-stage
-    - . $HOME/.poetry/env
-  script:
-    - make cicd-release
+  extends: .release-stage-semantic-release
