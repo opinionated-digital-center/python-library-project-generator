@@ -1,3 +1,10 @@
+# [0.5.0](https://github.com/opinionated-digital-center/python-library-project-generator/compare/v0.4.1...v0.5.0) (2020-04-29)
+
+
+### Features
+
+* clean template doc and template's project README ([a2c4a11](https://github.com/opinionated-digital-center/python-library-project-generator/commit/a2c4a11d86e9875cac79eb56c3324c72250b6900))
+
 ## [0.4.1](https://github.com/opinionated-digital-center/python-library-project-generator/compare/v0.4.0...v0.4.1) (2020-04-28)
 
 
