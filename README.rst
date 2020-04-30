@@ -31,7 +31,7 @@ are the abilities to:
 * Reuse centralised and optimised "toolbox" items, such as:
 
   * `GitLab-CI`_ pipeline elements. (available soon)
-  * `Make`_ targets. (available soon)
+  * Centralised (and expandable) `Make`_ targets. (available soon)
 
 The argumentation behind the Opinionated Digital Center's choices (for this and other
 projects) are/will be gradually documented as Architecture Decision Records, either
@@ -49,7 +49,6 @@ All the features of this template are fully tested through CI/CD pipelines, incl
 
   * Generate projects for each options of the template.
   * Run the project's built-in tests and checks for each option specifically.
-  * Upon success, release a new version of the template.
 
 * The `Test GitLab Pipeline <https://github.com/opinionated-digital-center/python-library-project-generator/actions?query=workflow%3A%22Test+GitLab+Pipeline%22>`_
   pipeline (GitHub available soon) to:
@@ -70,27 +69,25 @@ All the features of this template are fully tested through CI/CD pipelines, incl
 Features list
 -------------
 Projects initialised with the template will benefit straight away from the following
-out-of-the-box and ready to use features: (note: external environments like
-GitLab-CI_, the package repository and documentation host will require to be set up
-separately)
+out-of-the-box and ready to use features (*Note:* external environments like
+GitLab-CI_, the Python package repository and the documentation host will require to be
+set up separately):
 
+* Packaging and dependency management with Poetry_.
+* Local, multi-version testing automation with Tox_.
 * Unit testing with Pytest_ (default) or UnitTest_.
 * BDD/Functional testing with Behave_ (includes functional cli testing with
   `Behave4cli`_).
 * Linting/Style guide enforcement with Flake8_.
-* "Uncompromising" formatting and automated import sorting with Black_ & isort_.
+* "Uncompromising" formatting with Black_ and automated import sorting with isort_.
 * Static typing with Mypy_.
 * Code coverage with Coverage_.
-* Packaging and dependency management with Poetry_.
-* Python versions management to install multiple versions on your host with Pyenv_.
 * Task management centralisation with Make_, for all your tasks:
 
-  * For setup (development environment and machine, CI/CD pipeline job and tasks
-    launch).
-  * For test tasks.
+  * For setup (development host, project environment, CI/CD pipeline jobs).
+  * For test and CI/CD job tasks.
   * For the whole development and release lifecycle.
 
-* Local, multi-version testing automation with Tox_.
 * CI-CD pipeline with GitLab-CI_ and `GitHub Actions`_ (available soon), including:
 
   * A test phase running all tests in parallel jobs.
@@ -104,14 +101,17 @@ separately)
     based on commit messages following
     `ADR-0005: Use Conventional Commits <https://github.com/opinionated-digital-center/architecture-decision-record/blob/master/docs/adr/0005-use-conventional-commits.md>`_).
   * Generate the release notes.
-  * Publish the release on GitLab/GitHub.
-  * Publish the released package to the package repository.
+  * Publish the release on the chosen hosting (GitLab or GitHub, cloud or self-hosted).
+  * Publish the released package to the chosen Python package repository.
 
 * Command line interface (optional), with testing, using Cleo_ (default), Click_ or
   Argparse_.
 * Documentation generation with Sphinx_.
 * Documentation publishing to `Read the Docs`_ (publishing to GitLab and GitHub Pages
-  avaible soon).
+  planned).
+
+On our development machines, we use Pyenv_ to install and manage multiple versions of
+Python (``make`` target available to facilitate installation).
 
 
 Quickstart
@@ -155,11 +155,12 @@ PyEnv and Poetry installation
 Project initialisation and development setup
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* Generate a Python package project for the template::
+* Generate a project scaffold from the template::
 
     $ cd your/projects/root/dir
     $ cookiecutter https://github.com/opinionated-digital-center/python-library-project-generator
-
+    # Follow the prompts
+    [..]
 
 * Move to your newly created project's directory, initialise its ``git`` repo. Here
   we also commit the generated code::
@@ -169,9 +170,15 @@ Project initialisation and development setup
     $ git add --all .
     $ git commit -m 'chore: initial commit'
 
-* Set up you development environment::
+* Create an initial release tag, from which future releases will be bumped.
+  By convention, we use ``v0.0.0``::
 
-    # Full setup (installs all testing and check libraries and allows for IDE completion)
+    $ git tag v0.0.0
+    $ git push --tags
+
+* Set up your project's environment::
+
+    # Full setup (installs ``tox`` and all testing and checking libraries)
     $ make setup-dev-env-full
 
 
@@ -184,7 +191,7 @@ Hosting and pipeline setup
 Hosting setup
 +++++++++++++
 
-* Create a repo on GitHub or GitLab (cloud or sefl-hosted).
+* Create a repo on GitHub or GitLab (cloud or self-hosted).
 * Push your local repo to it::
 
     $ git remote add origin https://<hosting-domain>/<your-namespace>/<your-project>.git
@@ -201,30 +208,31 @@ GitLab CI specific setup
 
    </strike>
 
-* Configure your GitLab CI project environment variables
-  (`doc <https://docs.gitlab.com/ee/ci/variables/#types-of-variables>`_)
+* Configure your
+  `GitLab project environment variables <https://docs.gitlab.com/ee/ci/variables/#custom-environment-variables>`_
   with the following variables:
 
-  * For GitLab publishing, follow the `doc for @semantic-release/gitlab <https://github.com/semantic-release/gitlab#configuration>`_, and set:
+  * For release publishing to GitLab, follow
+    `@semantic-release/gitlab's doc <https://github.com/semantic-release/gitlab#configuration>`_,
+    and set:
 
     * ``GITLAB_TOKEN`` (don't forget to `mask
       <https://docs.gitlab.com/ee/ci/variables/#masked-variables>`_ it).
     * ``GITLAB_URL`` (optional - see doc).
     * ``GITLAB_PREFIX`` (optional - see doc).
 
-  * For package publishing:
+  * For Python package publishing to your designated repository, set:
 
     * ``PYPI_REPOSITORY_NAME`` (only needed if you are using a repository other
       than ``pypi``): ``name`` for your Python package repository.
 
       ``name`` can only contain alphanumerical characters, "``.``", "``-``"
-      and "``_``" (for example: ``my-repository`` or ``my.repository`` or
-      ``my_repository``).
+      and "``_``" (valid: ``my.foo-bar_repository``).
 
       In the remaining environment variables, ``<NAME>`` is to be replaced by
       this repository's name, in UPPERCASE, with "``.``" and "``-``"
-      replaced by "``_``" (for instance ``my-repository`` or ``my.repository`` or
-      ``my_repository`` all become ``MY_REPOSITORY``).
+      replaced by "``_``" (for instance ``my.foo-bar_repository`` becomes
+      ``MY_FOO_BAR_REPOSITORY``).
 
     * ``POETRY_REPOSITORIES_<NAME>_URL`` (required if repository is not ``pypi``): URL of
       the repository.
@@ -235,51 +243,80 @@ GitLab CI specific setup
       * Http basic credential:
 
         * ``POETRY_HTTP_BASIC_<NAME>_USERNAME``: username credential for repository
-          ``name``
+          ``name``.
         * ``POETRY_HTTP_BASIC_<NAME>_PASSWORD``: password credential for repository
-          ``name``
+          ``name``.
 
       * API token credential :
 
-        * ``POETRY_PYPI_TOKEN_<NAME>``: |ss| API token credential for repository
+        * |ss| ``POETRY_PYPI_TOKEN_<NAME>``: API token credential for repository
           ``name``. |se| =>
           `there is currently an issue <https://github.com/python-poetry/poetry/issues/2210>`_
           with setting API tokens through environment variables. As a workaround,
           use:
 
-          * ``POETRY_HTTP_BASIC_<NAME>_USERNAME=__token__``
+          * ``POETRY_HTTP_BASIC_<NAME>_USERNAME=__token__``.
           * ``POETRY_HTTP_BASIC_<NAME>_PASSWORD=<your_api_token>``.
 
-* Release your package by
-  `running a manual pipeline on your master branch <https://docs.gitlab.com/ee/ci/pipelines/#manually-executing-pipelines>`_.
+* Release your first package by
+  `running a manual pipeline on your master branch <https://docs.gitlab.com/ee/ci/pipelines/#run-a-pipeline-manually>`_.
 
 GitHub Actions specific setup
 +++++++++++++++++++++++++++++
 
 COMING SOON.
 
-Python package repository
-+++++++++++++++++++++++++
+Read The Docs setup
++++++++++++++++++++
 
-* Follow the doc for your specific package repository (self-hosted, PyPi, TestPyPi,
-  other).
-* Set up the environment variables as described in pipelines setup instructions above.
+* Follow the
+  `Webhooks setup doc <https://docs.readthedocs.io/en/stable/webhooks.html>`_.
 
-Fork This / Create Your Own
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you have differences in your preferred setup, we encourage you to fork this
-to create your own version. Or create your own; it doesn't strictly have to
-be a fork.
+Usage
+-----
 
-* It's up to you whether or not to rename your fork/own version. Do whatever
-  you think sounds good.
+Once you are all set up, you can use ``make`` targets to test and check your work
+before pushing and opening a pull/merge request.
 
-Or Submit a Pull Request
-~~~~~~~~~~~~~~~~~~~~~~~~
+Here are a few useful, day-to-day targets::
 
-We also accept pull requests on this, if they're small, atomic, and if they
-make our own packaging experience better.
+    # Display help for targets
+    $ make
+
+    # Setup pre-commit hooks
+    $ make setup-pre-commit-hooks
+
+    # Run unit tests
+    $ make test
+
+    # Run bdd tests
+    $ make bdd
+
+    # Enforce correct format with black and isort
+    $ make format
+
+    # Check style with flake8
+    $ make lint
+
+    # Check Python typing
+    $ make type
+
+    # Run all tests and checks with tox
+    $ make tox
+
+    # Run tox target in parallel mode
+    $ make tox-p
+
+    # Generate Sphinx HTML documentation
+    $ make docs
+
+Contributing
+------------
+
+We accept pull requests on this, if they're small, atomic, and if they
+make the packaging experience better (in our opinionated way, which can be discussed
+and argued... :) ).
 
 
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter/
