@@ -6,9 +6,13 @@ on:
       - master
     paths-ignore:
       - 'docs/**'
+      - '*.rst'
+      - '*.md'
   pull_request:
     paths-ignore:
       - 'docs/**'
+      - '*.rst'
+      - '*.md'
 
 env:
   POETRY_VIRTUALENVS_CREATE: true
