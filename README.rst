@@ -29,6 +29,7 @@ are the abilities to:
 * Use self-hosted GitLab and GitHub.
 * Publish to self-hosted package repositories.
 * Reuse centralised and optimised "toolbox" items, such as:
+
   * `GitLab-CI`_ pipeline elements. (available soon)
   * `Make`_ targets. (available soon)
 
@@ -58,9 +59,9 @@ All the features of this template are fully tested through CI/CD pipelines, incl
 
     * Run the project's built-in tests and checks on the project's pipeline.
     * Automatically bump the package's version following
-    `ADR-0003: Use Semantic Versioning <https://github.com/opinionated-digital-center/architecture-decision-record/blob/master/docs/adr/0003-use-semantic-versioning.md>`_,
-    based on commit messages following
-    `ADR-0005: Use Conventional Commits <https://github.com/opinionated-digital-center/architecture-decision-record/blob/master/docs/adr/0005-use-conventional-commits.md>`_).
+      `ADR-0003: Use Semantic Versioning <https://github.com/opinionated-digital-center/architecture-decision-record/blob/master/docs/adr/0003-use-semantic-versioning.md>`_,
+      based on commit messages following
+      `ADR-0005: Use Conventional Commits <https://github.com/opinionated-digital-center/architecture-decision-record/blob/master/docs/adr/0005-use-conventional-commits.md>`_).
     * Generate the release notes.
     * Publish the release on GitLab.
     * Publish the released package to the package repository.
@@ -260,9 +261,9 @@ COMING SOON.
 Python package repository
 +++++++++++++++++++++++++
 
- * Follow the doc for your specific package repository (self-hosted, PyPi, TestPyPi,
-   other).
- * Set up the environment variables as described in pipelines setup instructions above.
+* Follow the doc for your specific package repository (self-hosted, PyPi, TestPyPi,
+  other).
+* Set up the environment variables as described in pipelines setup instructions above.
 
 Fork This / Create Your Own
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
