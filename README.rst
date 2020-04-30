@@ -61,10 +61,10 @@ All the features of this template are fully tested through CI/CD pipelines, incl
       `ADR-0003: Use Semantic Versioning <https://github.com/opinionated-digital-center/architecture-decision-record/blob/master/docs/adr/0003-use-semantic-versioning.md>`_,
       based on commit messages following
       `ADR-0005: Use Conventional Commits <https://github.com/opinionated-digital-center/architecture-decision-record/blob/master/docs/adr/0005-use-conventional-commits.md>`_).
-    * Generate the release notes.
-    * Publish the release on GitLab.
-    * Publish the released package to the package repository.
-
+    * Generate the `release notes <https://gitlab.com/opinionated-digital-center/testing-area/python-library-project-generator-gitlab-pipeline-test/-/blob/master/CHANGELOG.md>`_.
+    * Publish the `release on GitLab <https://gitlab.com/opinionated-digital-center/testing-area/python-library-project-generator-gitlab-pipeline-test/-/releases>`_.
+    * Publish the `released package to the TestPyPI package repository <https://test.pypi.org/project/python-library-project-generator-gitlab-pipeline-test/>`_.
+    * (Also published but not tested: the project's `generated doc on Read The Docs <https://python-library-project-generator-gitlab-pipeline-test.readthedocs.io/>`_).
 
 Features list
 -------------
