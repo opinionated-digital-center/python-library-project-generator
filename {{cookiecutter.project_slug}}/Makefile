@@ -46,56 +46,38 @@ help:
 	@echo "SETUP TARGETS:"
 	@echo "\tsetup-dev-env-minimal - setup minimal dev environment for all make targets to work"
 	@echo "\tsetup-dev-env-full - setup full dev environment to allow IDE completion"
-	@echo "\tsetup-dev-host - setup dev requirements"
+	@echo "\tsetup-dev-host - setup host dev requirements"
 	@echo "\tsetup-pre-commit-hooks - setup pre-commit hooks"
-	@echo "\tsetup-release-tools: - setup tools needed for releasing package"
-{%- if cookiecutter.hosting == "GitLab" %}
-	@echo "\tsetup-cicd-test-stage: - setup tools needed for CI/CD test stage"
-{%- endif %}
-	@echo "\tsetup-cicd-release-stage: - setup tools needed for CI/CD release stage"
 	@echo ""
 	@echo "MAIN TARGETS:"
 	@echo "\tclean - remove all build, test, coverage and Python artifacts"
+	@echo "\ttest - run unit tests"
+	@echo "\tbdd - run bdd tests"
+	@echo "\tlint - check style with flake8"
+	@echo "\tformat - enforce correct format with isort (after a seed-isort-config) and black"
+	@echo "\tformat-check - check format for compliance with black and isort"
+	@echo "\ttype - check Python typing"
 	@echo "\ttox - run tox default targets, usually all tests and checks (see tox.ini)"
 	@echo "\ttox-p - same as 'tox', but with parallel runs"
-	@echo "\trepl - run the repl tool (bpython in our case)"
-	@echo "\tlint - check style with flake8 (uses tox)"
-	@echo "\tformat-check - check format for correctness with isort and black (uses tox)"
-	@echo "\tformat - enforce correct format with isort (after a seed-isort-config) and black (does not use tox)"
-	@echo "\ttype - checks Python typing (uses tox)"
-	@echo "\ttest - run tests quickly with the default Python (3.7 - uses tox)"
-	@echo "\ttest-all - run tests on every Python version declared (uses tox)"
-	@echo "\tbdd - run bdd tests (uses tox)"
-	@echo "\tcoverage - [TO BE IMPLEMENTED] check code coverage quickly with the default Python"
 	@echo "\tdocs - generate Sphinx HTML documentation, including API docs"
 	@echo "\tdocs-pdf - generate Sphinx PDF documentation, including API docs"
-	@echo "\tcicd-release - full release - through ci/cd"
-	@echo "\trelease - [TO BE IMPLEMENTED] full release - from local (requires linux)"
-	@echo "\tbump NEXT_VERSION=[next_version] - bump versions in all relevant files"
-	@echo "\tpublish - publish package to pypi"
-	@echo "\tdist - [TO BE IMPLEMENTED] package"
-	@echo "\tinstall - install the package to the active Python's site-packages"
+	@echo "\trepl - run the repl tool (bpython in our case)"
 	@echo ""
-	@echo "TOX TARGETS:"
-	@echo "\ttox-lint - check style with flake8 (uses tox)"
-	@echo "\ttox-format - check format for correctness with isort and black (uses tox)"
-	@echo "\ttox-type - checks Python typing (uses tox)"
-	@echo "\ttox-test - run tests quickly with the default Python (3.7 - uses tox)"
-	@echo "\ttox-test-all - run tests on every Python version declared (uses tox)"
-	@echo "\ttox-bdd - run bdd tests (uses tox)"
+	@echo "INDIVIDUAL TOX TARGETS:"
+	@echo "\ttox-test-default-version|tox-test - run unit tests with the default Python"
+	@echo "\ttox-test-all-versions|tox-test-all - run unit tests on each Python version declared"
+	@echo "\ttox-test-py38 - run unit tests with Python 3.8"
+	@echo "\ttox-test-py37 - run unit tests with Python 3.7"
+	@echo "\ttox-test-py36 - run unit tests with Python 3.6"
+	@echo "\ttox-bdd-default-version|tox-bdd - run bdd tests with the default Python"
+	@echo "\ttox-bdd-all-versions|tox-bdd-all - run bdd tests on every Python version declared"
+	@echo "\ttox-bdd-py38 - run bdd tests with Python 3.8"
+	@echo "\ttox-bdd-py37 - run bdd tests with Python 3.7"
+	@echo "\ttox-bdd-py36 - run bdd tests with Python 3.6"
+	@echo "\ttox-lint - check style with flake8"
+	@echo "\ttox-format - check format for correctness with isort and black"
+	@echo "\ttox-type - checks Python typing"
 	@echo "\ttox-docs - generate Sphinx HTML documentation, including API docs"
-	@echo "\ttox-docs-pdf - generate Sphinx PDF documentation, including API docs"
-	@echo "SECONDARY TARGETS:"
-	@echo "\tclean-build - remove build artifacts"
-	@echo "\tclean-pyc - remove Python file artifacts"
-	@echo "\tclean-test - remove test and coverage artifacts"
-	@echo "\tclean-venv - remove poetry's virtualenv"
-	@echo "\tpy36 - run tests quickly with the default Python 3.6 (uses tox)"
-	@echo "\tpy37 - run tests quickly with the default Python 3.7 (uses tox)"
-	@echo "\tpy38 - run tests quickly with the default Python 3.8 (uses tox)"
-	@echo "\tseed-isort - run seed-isort-config (does not use tox)"
-	@echo "\tisort - run isort to sort imports (does not use tox)"
-	@echo "\tblack - run black the uncompromising code formatter (does not use tox)"
 	@echo ""
 	@echo "GIT TARGETS:"
 	@echo "\tprune-branches - prune obsolete local tracking branches and local branches"
@@ -279,22 +261,27 @@ test:
 	poetry run python -m unittest discover tests
 {%- endif %}
 
-tox-test: py
-
+tox-test-default-version: tox-py
+tox-test: tox-py
 tox-py:
 	poetry run tox -e py
 
-tox-py37:
-	poetry run tox -e py37
-
-tox-py36:
-	poetry run tox -e py36
-
+tox-test-py38: tox-py38
 tox-py38:
 	poetry run tox -e py38
 
+tox-test-py37: tox-py37
+tox-py37:
+	poetry run tox -e py37
+
+tox-test-py36: tox-py36
+tox-py36:
+	poetry run tox -e py36
+
+tox-test-all-versions: tox-test-all
 tox-test-all:
-	poetry run tox -e py37,py36,py38
+	poetry run tox -e py38,py37,py36
+
 
 #################################################################
 # acceptance testing / bdd
@@ -303,8 +290,22 @@ tox-test-all:
 bdd:
 	poetry run behave features --format=behave_ext.cucumber_json:PrettyCucumberJSONFormatter -o cucumber-report.json --format=pretty
 
+tox-bdd-default-version: tox-bdd
 tox-bdd:
 	poetry run tox -e bdd
+
+tox-bdd-py38:
+	poetry run tox -e bdd-py38
+
+tox-bdd-py37:
+	poetry run tox -e bdd-py37
+
+tox-bdd-py36:
+	poetry run tox -e bdd-py36
+
+tox-bdd-all-versions: tox-bdd-all
+tox-bdd-all:
+	poetry run tox -e bdd-py38,bdd-py37,bdd-py36
 
 #################################################################
 # coverage
