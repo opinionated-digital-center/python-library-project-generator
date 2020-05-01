@@ -1,3 +1,11 @@
+## [0.5.1](https://github.com/opinionated-digital-center/python-library-project-generator/compare/v0.5.0...v0.5.1) (2020-05-01)
+
+
+### Bug Fixes
+
+* change cookicutter default user details  to foo bar ([e967942](https://github.com/opinionated-digital-center/python-library-project-generator/commit/e9679422684d95d694aded82876ae911d418e047))
+* remove unused cookiecutter version option (version bump determined by tag) ([cc8cd31](https://github.com/opinionated-digital-center/python-library-project-generator/commit/cc8cd312928310ec83942ff19b46245aca2a2f5d))
+
 # [0.5.0](https://github.com/opinionated-digital-center/python-library-project-generator/compare/v0.4.1...v0.5.0) (2020-04-29)
 
 
