@@ -45,26 +45,35 @@ Fully tested features
 All the features of this template are fully tested through CI/CD pipelines, including:
 
 * The `Test and make release <https://github.com/opinionated-digital-center/python-library-project-generator/actions?query=workflow%3A%22Test+and+make+release%22>`_
-  pipeline to:
+  pipeline, which does:
 
   * Generate projects for each options of the template.
   * Run the project's built-in tests and checks for each option specifically.
 
 * The `Test GitLab Pipeline <https://github.com/opinionated-digital-center/python-library-project-generator/actions?query=workflow%3A%22Test+GitLab+Pipeline%22>`_
-  pipeline (GitHub available soon) to:
+  pipeline (GitHub available soon), which does:
 
   * Generate a project with the default options.
-  * Test that the generated project's GitLab pipeline runs successfully, including:
+  * Push the result to the
+    `pipeline test project on gitlab.com <https://gitlab.com/opinionated-digital-center/testing-area/python-library-project-generator-gitlab-pipeline-test>`_.
+  * Create a Merge Request.
+  * Verify the Merge Request's pipeline runs successfully, validating the project's
+    tests and checks.
+  * Merge the Merge Request.
+  * Verify that the post-merge pipeline successfully creates and publishes a release,
+    which includes:
 
-    * Run the project's built-in tests and checks on the project's pipeline.
     * Automatically bump the package's version following
       `ADR-0003: Use Semantic Versioning <https://github.com/opinionated-digital-center/architecture-decision-record/blob/master/docs/adr/0003-use-semantic-versioning.md>`_,
       based on commit messages following
-      `ADR-0005: Use Conventional Commits <https://github.com/opinionated-digital-center/architecture-decision-record/blob/master/docs/adr/0005-use-conventional-commits.md>`_).
+      `ADR-0005: Use Conventional Commits <https://github.com/opinionated-digital-center/architecture-decision-record/blob/master/docs/adr/0005-use-conventional-commits.md>`_.
     * Generate the `release notes <https://gitlab.com/opinionated-digital-center/testing-area/python-library-project-generator-gitlab-pipeline-test/-/blob/master/CHANGELOG.md>`_.
     * Publish the `release on GitLab <https://gitlab.com/opinionated-digital-center/testing-area/python-library-project-generator-gitlab-pipeline-test/-/releases>`_.
     * Publish the `released package to the TestPyPI package repository <https://test.pypi.org/project/python-library-project-generator-gitlab-pipeline-test/>`_.
     * (Also published but not tested: the project's `generated doc on Read The Docs <https://python-library-project-generator-gitlab-pipeline-test.readthedocs.io/>`_).
+
+* The Test GitHub Actions workflow (available soon).
+
 
 Features list
 -------------
@@ -79,7 +88,8 @@ set up separately):
 * BDD/Functional testing with Behave_ (includes functional cli testing with
   `Behave4cli`_).
 * Linting/Style guide enforcement with Flake8_.
-* "Uncompromising" formatting with Black_ and automated import sorting with isort_.
+* "Uncompromising" formatting with Black_
+* Automated import sorting with isort_.
 * Static typing with Mypy_.
 * Code coverage with Coverage_.
 * Task management centralisation with Make_, for all your tasks:
@@ -88,10 +98,12 @@ set up separately):
   * For test and CI/CD job tasks.
   * For the whole development and release lifecycle.
 
+* Pre-commit hooks for enforcing specific checks before committing with
+  `pre-commit`_.
 * CI-CD pipeline with GitLab-CI_ and `GitHub Actions`_ (available soon), including:
 
-  * A test phase running all tests in parallel jobs.
-  * A release phase (see Release cycle below).
+  * A test stage running all tests in parallel jobs.
+  * A release stage (see Release cycle immediately below).
   * Caching (available soon).
 
 * Release cycle with Semantic-release_, including:
@@ -162,19 +174,18 @@ Project initialisation and development setup
     # Follow the prompts
     [..]
 
-* Move to your newly created project's directory, initialise its ``git`` repo. Here
-  we also commit the generated code::
+* Move to your newly created project's directory, initialise its ``git`` repo and
+  commit the generated code::
 
     $ cd <your-project>
     $ git init .
     $ git add --all .
     $ git commit -m 'chore: initial commit'
 
-* Create an initial release tag, from which future releases will be bumped.
-  By convention, we use ``v0.0.0``::
+* Create an initial release tag, which will be used as a basis to bump upcoming
+  releases. By convention, we use ``v0.0.0``::
 
     $ git tag v0.0.0
-    $ git push --tags
 
 * Set up your project's environment::
 
@@ -184,6 +195,11 @@ Project initialisation and development setup
 
     # Or alternatively, minimal setup (installs ``tox`` and formatting libraries only)
     $ make setup-dev-env-minimal
+
+* Set up pre-commit hooks to enforce minimal formatting checks before committing
+  (which will otherwise cause the CI/CD pipeline to fail)::
+
+    $ make setup-pre-commit-hooks
 
 Hosting and pipeline setup
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -196,6 +212,9 @@ Hosting setup
 
     $ git remote add origin https://<hosting-domain>/<your-namespace>/<your-project>.git
     $ git push -u origin master
+
+    # Also push the previously created tag
+    $ git push --tags
 
 GitLab CI specific setup
 ++++++++++++++++++++++++
@@ -264,7 +283,7 @@ GitLab CI specific setup
 GitHub Actions specific setup
 +++++++++++++++++++++++++++++
 
-COMING SOON.
+(available soon)
 
 Read The Docs setup
 +++++++++++++++++++
@@ -283,6 +302,12 @@ Here are a few useful, day-to-day targets::
 
     # Display help for targets
     $ make
+
+    # Full project setup (installs ``tox`` and all testing and checking libraries)
+    $ make setup-dev-env-full
+
+    # Minimal project setup (installs ``tox`` and formatting libraries only)
+    $ make setup-dev-env-minimal
 
     # Setup pre-commit hooks
     $ make setup-pre-commit-hooks
@@ -333,6 +358,7 @@ and argued... :) ).
 .. _Mypy: http://mypy-lang.org/
 .. _Coverage: https://coverage.readthedocs.io/en/latest/
 .. _Make: https://www.gnu.org/software/make/
+.. _pre-commit: https://pre-commit.com/
 .. _Poetry: https://python-poetry.org/
 .. _Pyenv: https://github.com/pyenv/pyenv/wiki
 .. _GitLab-CI: https://docs.gitlab.com/ee/ci/
