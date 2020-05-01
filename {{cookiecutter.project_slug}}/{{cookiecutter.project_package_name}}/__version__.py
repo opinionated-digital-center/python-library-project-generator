@@ -2,4 +2,4 @@
 # Do not edit manually
 """Version module for {{ cookiecutter.project_title }}."""
 
-__version__ = "{{ cookiecutter.version }}"
+__version__ = "0.0.0"
