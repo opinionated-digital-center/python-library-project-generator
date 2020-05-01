@@ -11,7 +11,7 @@
 
 [tool.poetry]
 name = "{{ cookiecutter.project_slug }}"
-version = "{{ cookiecutter.version }}"
+version = "0.0.0"
 description = "{{ cookiecutter.project_short_description }}"
 {%- if cookiecutter.open_source_license in license_classifiers %}
 license = "{{ cookiecutter.open_source_license }}"

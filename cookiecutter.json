@@ -12,7 +12,6 @@
   "hosting_repo_url": "{{ cookiecutter.hosting_base_url }}/{{ cookiecutter.hosting_namespace }}/{{ cookiecutter.project_slug }}",
   "pypi_hosting": ["PyPi", "TestPyPi", "Other"],
   "pypi_username": "{{ cookiecutter.hosting_username }}",
-  "version": "0.0.0",
   "use_pytest": "y",
   "command_line_interface": ["Cleo", "Click", "Argparse", "None"],
   "create_author_file": "y",
