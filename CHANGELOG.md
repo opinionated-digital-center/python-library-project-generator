@@ -1,3 +1,10 @@
+## [0.5.2](https://github.com/opinionated-digital-center/python-library-project-generator/compare/v0.5.1...v0.5.2) (2020-05-04)
+
+
+### Bug Fixes
+
+* **make:** clean make help ([c26594e](https://github.com/opinionated-digital-center/python-library-project-generator/commit/c26594ede0fbc6f16b781e797beaaae26492d51e))
+
 ## [0.5.1](https://github.com/opinionated-digital-center/python-library-project-generator/compare/v0.5.0...v0.5.1) (2020-05-01)
 
 
