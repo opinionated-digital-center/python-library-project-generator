@@ -4,7 +4,7 @@ set -ex
 
 BASEDIR=$(dirname "$0")
 
-${BASEDIR}/verify_git_tags_one_version_tag_present.sh $1
+${BASEDIR}/verify_git_tags_new_version_tag_non_existant.sh $1
 
 python ${BASEDIR}/verify_pypi_env_variables.py
 
