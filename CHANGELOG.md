@@ -1,3 +1,11 @@
+## [0.5.3](https://github.com/opinionated-digital-center/python-library-project-generator/compare/v0.5.2...v0.5.3) (2020-05-05)
+
+
+### Bug Fixes
+
+* **ci:** correct release check to verify new version tag ([85643d1](https://github.com/opinionated-digital-center/python-library-project-generator/commit/85643d120bca6ce0f65f2b0827c610988e5db75a))
+* remove unwanted editorconfig items and add trim whitespaces ([c7d088d](https://github.com/opinionated-digital-center/python-library-project-generator/commit/c7d088d5c2cee5b4a79f8ff15462c40830f515ab))
+
 ## [0.5.2](https://github.com/opinionated-digital-center/python-library-project-generator/compare/v0.5.1...v0.5.2) (2020-05-04)
 
 
