@@ -89,14 +89,11 @@ help:
 # setting up dev env
 #################################################################
 
-dev-env-minimal = -E format
-dev-env-full = -E test -E bdd -E type -E format -E lint -E repl
-
 setup-dev-env-minimal: clean
-	poetry install --no-root $(dev-env-minimal)
+	poetry install --no-root -E format
 
 setup-dev-env-full: clean
-	poetry install --no-root $(dev-env-full)
+	poetry install --no-root -E test -E bdd -E type -E format -E lint -E repl
 
 setup-dev-host:
 	./scripts/install_pyenv.sh

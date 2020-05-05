@@ -77,7 +77,7 @@ Setup (for Mac)
 1. Fork the ``{{ cookiecutter.project_slug }}`` repo on {{ cookiecutter.hosting }}.
 2. Clone your fork locally::
 
-    $ git clone {{ cookiecutter.hosting_repo_url }}.git
+    $ git clone {{ cookiecutter.hosting_base_url }}/your-namespace/{{ cookiecutter.project_slug }}.git
 
 3. Assuming you have the prerequisites installed, this is how you set up your fork for local development::
 
@@ -99,7 +99,6 @@ Setup (for Mac)
 
     See the Makefile help for all available targets.
 
-
 6. Commit your changes and push your branch to {{ cookiecutter.hosting }}::
 
     $ git add .
@@ -108,10 +107,10 @@ Setup (for Mac)
 
 7. Submit a {{ merge_or_pull }} request through the {{ cookiecutter.hosting }} website.
 
-{{ merge_or_pull }} Request Guidelines
+{{ merge_or_pull.capitalize() }} Request Guidelines
 {% for _ in merge_or_pull %}-{% endfor %}-------------------
 
-Before you submit a {{ merge_or_pull.capitalize() }} request, check that it meets these guidelines:
+Before you submit a {{ merge_or_pull }} request, check that it meets these guidelines:
 
 1. The {{ merge_or_pull }} request should include tests.
 2. If the {{ merge_or_pull }} request adds functionality, the docs should be updated. Put
