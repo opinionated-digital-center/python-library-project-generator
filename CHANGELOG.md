@@ -1,3 +1,10 @@
+# [0.6.0](https://github.com/opinionated-digital-center/python-library-project-generator/compare/v0.5.3...v0.6.0) (2020-05-13)
+
+
+### Features
+
+* use gitlab pipeline templates ([286d4ef](https://github.com/opinionated-digital-center/python-library-project-generator/commit/286d4ef6bb80fa6ce1f39f3d24066b3f361bc734))
+
 ## [0.5.3](https://github.com/opinionated-digital-center/python-library-project-generator/compare/v0.5.2...v0.5.3) (2020-05-05)
 
 
