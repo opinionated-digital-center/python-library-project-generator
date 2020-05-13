@@ -1,3 +1,10 @@
+# [0.7.0](https://github.com/opinionated-digital-center/python-library-project-generator/compare/v0.6.0...v0.7.0) (2020-05-13)
+
+
+### Features
+
+* remove behave4cmd0 code and use behave4cli library instead ([9d0cfe6](https://github.com/opinionated-digital-center/python-library-project-generator/commit/9d0cfe6e2e14ee101b65f582c7dfdb9d5fa820eb))
+
 # [0.6.0](https://github.com/opinionated-digital-center/python-library-project-generator/compare/v0.5.3...v0.6.0) (2020-05-13)
 
 
