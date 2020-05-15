@@ -252,11 +252,7 @@ tox-type:
 #################################################################
 
 test:
-{%- if cookiecutter.use_pytest == "y" %}
 	poetry run pytest --cov=$(PACKAGE_DIR) --cov-report=html --cov-report=term tests
-{%- else %}
-	poetry run python -m unittest discover tests
-{%- endif %}
 
 tox-test-default-version: tox-py
 tox-test: tox-py
