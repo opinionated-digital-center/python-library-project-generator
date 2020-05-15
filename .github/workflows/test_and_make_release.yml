@@ -21,9 +21,6 @@ env:
 jobs:
   template_test_all_unit_test_options:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        option: [pytest, unittest]
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python 3.8
@@ -47,7 +44,7 @@ jobs:
       - name: Install template generation dependencies
         run: make install-template-generation-dependencies
       - name: Instantiate template and run generated project's tests
-        run: make test-generated-project OPTION=${{ matrix.option }}
+        run: make test-generated-project
 
   template_bdd_all_cli_options:
     runs-on: ubuntu-latest
@@ -83,7 +80,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        option: [cli-cleo, cli-click, cli-none, pytest, unittest]
+        option: [cli-cleo, cli-click, cli-none, pytest]
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python 3.8

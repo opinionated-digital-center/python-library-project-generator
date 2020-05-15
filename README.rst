@@ -84,7 +84,7 @@ set up separately):
 
 * Packaging and dependency management with Poetry_.
 * Local, multi-version testing automation with Tox_.
-* Unit testing with Pytest_ (default) or UnitTest_.
+* Unit testing with Pytest_.
 * BDD/Functional testing with Behave_ (includes functional cli testing with
   `Behave4cli`_).
 * Linting/Style guide enforcement with Flake8_.
@@ -348,7 +348,6 @@ and argued... :) ).
 .. _Angular Commit Message Guideline: https://github.com/angular/angular/blob/13495c6/CONTRIBUTING.md#-commit-message-guidelines
 .. _Conventional Commits specification: https://www.conventionalcommits.org/en/v1.0.0/
 .. _Pytest: https://docs.pytest.org/en/latest/
-.. _UnitTest: https://docs.python.org/3/library/unittest.html
 .. _Behave: https://behave.readthedocs.io/en/latest/
 .. _Behave4cli: https://gitlab.com/opinionated-digital-center/behave4cli
 .. _Flake8: https://flake8.pycqa.org/en/latest/

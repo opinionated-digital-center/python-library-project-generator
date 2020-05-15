@@ -78,9 +78,6 @@ refresh-: refresh
 
 refresh-pytest: refresh
 
-refresh-unittest: clean
-	poetry run cookiecutter --overwrite-if-exists --default-config --no-input -o $(BUILD_DIR) . use_pytest=n
-
 refresh-cli-cleo: refresh
 
 refresh-cli-click: clean
