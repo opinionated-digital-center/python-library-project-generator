@@ -1,7 +1,7 @@
 # Use GNU Make to centralise all tasks
 
-* Status: proposed
-* Date: 2020-05-04
+* Status: accepted
+* Date: 2020-05-07
 
 ## Context and Problem Statement
 
