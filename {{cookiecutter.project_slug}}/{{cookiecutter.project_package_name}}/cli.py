@@ -1,8 +1,5 @@
 """Console script for {{cookiecutter.project_package_name}}."""
 
-{% if cookiecutter.command_line_interface|lower == "argparse" -%}
-import argparse
-{%- endif %}
 import sys
 {% if cookiecutter.command_line_interface|lower == "cleo" %}
 import cleo
@@ -50,18 +47,6 @@ def main(args=None):
 @main.command()
 def hello():
     click.echo(hello_world())
-{%- elif cookiecutter.command_line_interface|lower == "argparse" %}
-
-
-def main():
-    """Console script for {{cookiecutter.project_package_name}}."""
-    parser = argparse.ArgumentParser()
-    parser.add_argument("_", nargs="*")
-    args = parser.parse_args()
-
-    print("Arguments: " + str(args._))
-    print(hello_world())
-    return 0
 {%- endif %}
 
 

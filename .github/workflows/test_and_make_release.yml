@@ -53,7 +53,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        option: [cli-cleo, cli-click, cli-argparse, cli-none]
+        option: [cli-cleo, cli-click, cli-none]
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python 3.8
@@ -83,7 +83,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        option: [cli-cleo, cli-click, cli-argparse, cli-none, pytest, unittest]
+        option: [cli-cleo, cli-click, cli-none, pytest, unittest]
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python 3.8
