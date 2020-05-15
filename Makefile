@@ -86,9 +86,6 @@ refresh-cli-cleo: refresh
 refresh-cli-click: clean
 	poetry run cookiecutter --overwrite-if-exists --default-config --no-input -o $(BUILD_DIR) . command_line_interface=Click
 
-refresh-cli-argparse: clean
-	poetry run cookiecutter --overwrite-if-exists --default-config --no-input -o $(BUILD_DIR) . command_line_interface=Argparse
-
 refresh-cli-none: clean
 	poetry run cookiecutter --overwrite-if-exists --default-config --no-input -o $(BUILD_DIR) . command_line_interface=None
 

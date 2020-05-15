@@ -116,8 +116,7 @@ set up separately):
   * Publish the release on the chosen hosting (GitLab or GitHub, cloud or self-hosted).
   * Publish the released package to the chosen Python package repository.
 
-* Command line interface (optional), with testing, using Cleo_ (default), Click_ or
-  Argparse_.
+* Command line interface (optional), with testing, using Cleo_ (default) or Click_.
 * Documentation generation with Sphinx_.
 * Documentation publishing to `Read the Docs`_ (publishing to GitLab and GitHub Pages
   planned).
@@ -369,7 +368,6 @@ and argued... :) ).
 .. _Semantic-release: https://semantic-release.gitbook.io/
 .. _Cleo: https://cleo.readthedocs.io/en/latest/
 .. _Click: https://click.palletsprojects.com/
-.. _Argparse: https://docs.python.org/3/library/argparse.html
 .. _Punch: https://github.com/lgiordani/punch
 .. _PyPi: https://pypi.python.org/pypi
 .. _Windows Subsystem for Linux: https://docs.microsoft.com/en-us/windows/wsl/about
