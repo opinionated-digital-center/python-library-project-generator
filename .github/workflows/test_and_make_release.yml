@@ -16,6 +16,7 @@ on:
 
 env:
   POETRY_VIRTUALENVS_CREATE: true
+  POETRY_VIRTUALENVS_IN_PROJECT: true
 
 jobs:
   template_test_all_unit_test_options:
@@ -26,11 +27,21 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python 3.8
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2
         with:
-          python-version: 3.8
+          python-version: ${{ matrix.python-version }}
       - name: Install tools (Poetry)
-        uses: Gr1N/setup-poetry@v2
+        uses: Gr1N/setup-poetry@v4
+      - name: Get full python version
+        id: full-python-version
+        shell: bash
+        run: echo ::set-output name=version::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))")
+      - name: Set up cache
+        uses: actions/cache@v2
+        id: cache
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-test-${{ hashFiles('**/poetry.lock') }}
       - name: Complete CI/CD setup
         run: make setup-cicd
       - name: Install template generation dependencies
@@ -46,11 +57,21 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python 3.8
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2
         with:
-          python-version: 3.8
+          python-version: ${{ matrix.python-version }}
       - name: Install tools (Poetry)
-        uses: Gr1N/setup-poetry@v2
+        uses: Gr1N/setup-poetry@v4
+      - name: Get full python version
+        id: full-python-version
+        shell: bash
+        run: echo ::set-output name=version::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))")
+      - name: Set up cache
+        uses: actions/cache@v2
+        id: cache
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-bdd-${{ hashFiles('**/poetry.lock') }}
       - name: Complete CI/CD setup
         run: make setup-cicd
       - name: Install template generation dependencies
@@ -66,11 +87,21 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python 3.8
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2
         with:
           python-version: 3.8
       - name: Install tools (Poetry)
-        uses: Gr1N/setup-poetry@v2
+        uses: Gr1N/setup-poetry@v4
+      - name: Get full python version
+        id: full-python-version
+        shell: bash
+        run: echo ::set-output name=version::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))")
+      - name: Set up cache
+        uses: actions/cache@v2
+        id: cache
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-format-${{ hashFiles('**/poetry.lock') }}
       - name: Complete CI/CD setup
         run: make setup-cicd
       - name: Install template generation dependencies
@@ -83,11 +114,21 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python 3.8
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2
         with:
           python-version: 3.8
       - name: Install tools (Poetry)
-        uses: Gr1N/setup-poetry@v2
+        uses: Gr1N/setup-poetry@v4
+      - name: Get full python version
+        id: full-python-version
+        shell: bash
+        run: echo ::set-output name=version::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))")
+      - name: Set up cache
+        uses: actions/cache@v2
+        id: cache
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-lint-${{ hashFiles('**/poetry.lock') }}
       - name: Complete CI/CD setup
         run: make setup-cicd
       - name: Install template generation dependencies
@@ -100,11 +141,21 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python 3.8
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2
         with:
           python-version: 3.8
       - name: Install tools (Poetry)
-        uses: Gr1N/setup-poetry@v2
+        uses: Gr1N/setup-poetry@v4
+      - name: Get full python version
+        id: full-python-version
+        shell: bash
+        run: echo ::set-output name=version::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))")
+      - name: Set up cache
+        uses: actions/cache@v2
+        id: cache
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-type-${{ hashFiles('**/poetry.lock') }}
       - name: Complete CI/CD setup
         run: make setup-cicd
       - name: Install template generation dependencies
