@@ -48,7 +48,7 @@ black = {version = "stable", optional = true, allow-prereleases = true}
 # Optional dependencies to be part of `docs` extra
 sphinx = {version = "^2.3.0", optional = true}
 sphinx-autodoc-typehints = {version = "^1.10.3", optional = true}
-sphinx-autobuild = {version = "^0.7.1", optional = true}
+sphinx-autobuild = {version = "^2020.0.0", optional = true}
 sphinx_rtd_theme = {version = "^0.4.3", optional = true}
 # Optional dependencies to be part of `repl` extra
 bpython = {version = "^0.18", optional = true}
