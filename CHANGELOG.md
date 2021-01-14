@@ -1,3 +1,10 @@
+# [0.8.0](https://github.com/opinionated-digital-center/python-library-project-generator/compare/v0.7.0...v0.8.0) (2021-01-14)
+
+
+### Features
+
+* remove argparse option ([85cc7ff](https://github.com/opinionated-digital-center/python-library-project-generator/commit/85cc7ff3740a7cd72bf6bbd583f7116dc34fc43c))
+
 # [0.7.0](https://github.com/opinionated-digital-center/python-library-project-generator/compare/v0.6.0...v0.7.0) (2020-05-13)
 
 
