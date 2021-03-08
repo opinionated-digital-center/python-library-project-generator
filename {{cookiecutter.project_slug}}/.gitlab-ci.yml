@@ -21,7 +21,7 @@ workflow:
       when: never
 
 default:
-  image: python:3.7
+  image: python:3.9
 
 stages:
   - test
@@ -33,19 +33,19 @@ stages:
 
 py38:
   extends: .test-stage-py
-  image: python:3.8
+  image: python:3.9
 
 py37:
   extends: .test-stage-py
-  image: python:3.7
+  image: python:3.9
 
 py36:
   extends: .test-stage-py
-  image: python:3.6
+  image: python:3.9
 
 bdd-py38:
   extends: .test-stage-bdd
-  image: python:3.8
+  image: python:3.9
   artifacts:
     paths:
       - cucumber-report.json
@@ -53,11 +53,11 @@ bdd-py38:
 
 bdd-py37:
   extends: .test-stage-bdd
-  image: python:3.7
+  image: python:3.9
 
 bdd-py36:
   extends: .test-stage-bdd
-  image: python:3.6
+  image: python:3.9
 
 format:
   extends: .test-stage-format
