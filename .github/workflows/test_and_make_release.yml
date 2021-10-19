@@ -28,7 +28,7 @@ jobs:
         with:
           python-version: 3.8
       - name: Install tools (Poetry)
-        uses: Gr1N/setup-poetry@v4
+        uses: Gr1N/setup-poetry@v7
       - name: Get full python version
         id: full-python-version
         shell: bash
@@ -58,7 +58,7 @@ jobs:
         with:
           python-version: 3.8
       - name: Install tools (Poetry)
-        uses: Gr1N/setup-poetry@v4
+        uses: Gr1N/setup-poetry@v7
       - name: Get full python version
         id: full-python-version
         shell: bash
@@ -88,7 +88,7 @@ jobs:
         with:
           python-version: 3.8
       - name: Install tools (Poetry)
-        uses: Gr1N/setup-poetry@v4
+        uses: Gr1N/setup-poetry@v7
       - name: Get full python version
         id: full-python-version
         shell: bash
@@ -115,7 +115,7 @@ jobs:
         with:
           python-version: 3.8
       - name: Install tools (Poetry)
-        uses: Gr1N/setup-poetry@v4
+        uses: Gr1N/setup-poetry@v7
       - name: Get full python version
         id: full-python-version
         shell: bash
@@ -142,7 +142,7 @@ jobs:
         with:
           python-version: 3.8
       - name: Install tools (Poetry)
-        uses: Gr1N/setup-poetry@v4
+        uses: Gr1N/setup-poetry@v7
       - name: Get full python version
         id: full-python-version
         shell: bash
