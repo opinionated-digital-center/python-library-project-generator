@@ -1,3 +1,10 @@
+## [0.9.2](https://github.com/opinionated-digital-center/python-library-project-generator/compare/v0.9.1...v0.9.2) (2022-01-25)
+
+
+### Bug Fixes
+
+* **deps:** update dependency pytest to v6 ([18d8bbc](https://github.com/opinionated-digital-center/python-library-project-generator/commit/18d8bbcc853d9ca1ff51ced35f443727f77c750d))
+
 ## [0.9.1](https://github.com/opinionated-digital-center/python-library-project-generator/compare/v0.9.0...v0.9.1) (2022-01-25)
 
 
