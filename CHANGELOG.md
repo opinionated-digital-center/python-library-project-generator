@@ -1,3 +1,10 @@
+## [0.9.1](https://github.com/opinionated-digital-center/python-library-project-generator/compare/v0.9.0...v0.9.1) (2022-01-25)
+
+
+### Bug Fixes
+
+* **deps:** update dependency flake8 to v4 ([17661f1](https://github.com/opinionated-digital-center/python-library-project-generator/commit/17661f120115c52ceb6d3b7198606712e00361a4))
+
 # [0.9.0](https://github.com/opinionated-digital-center/python-library-project-generator/compare/v0.8.0...v0.9.0) (2021-01-14)
 
 
