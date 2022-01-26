@@ -23,9 +23,8 @@
       "@semantic-release/exec",
       {
         "verifyConditionsCmd": "./scripts/verify_git_tags_one_version_tag_present.sh",
-        "verifyReleaseCmd": "./scripts/semantic_release_exec_verify_release.sh ${nextRelease.version}",
-        "prepareCmd": "make bump NEW_VERSION=${nextRelease.version}",
-        "publishCmd": "make publish"
+        "verifyReleaseCmd": "./scripts/verify_git_tags_new_version_tag_non_existant.sh ${nextRelease.version}",
+        "prepareCmd": "make bump NEW_VERSION=${nextRelease.version}"
       }
     ],
     [

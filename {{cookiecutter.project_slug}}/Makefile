@@ -90,9 +90,11 @@ help:
 #################################################################
 
 setup-dev-env-minimal: clean
+# TODO evaluate possibility of removing `--no-root`
 	poetry install --no-root -E format
 
 setup-dev-env-full: clean
+# TODO evaluate possibility of removing `--no-root`
 	poetry install --no-root -E test -E bdd -E type -E format -E lint -E repl
 
 setup-dev-host:
@@ -223,7 +225,7 @@ seed-isort:
 	poetry run seed-isort-config
 
 isort:
-	poetry run isort -rc $(PACKAGE_DIR) tests features -vb
+	poetry run isort --profile black $(PACKAGE_DIR) tests features
 
 black:
 	poetry run black $(PACKAGE_DIR) tests features
@@ -231,7 +233,7 @@ black:
 format: seed-isort isort black
 
 format-check:
-	poetry run isort -c -rc $(PACKAGE_DIR) tests features -vb
+	poetry run isort -c --profile black $(PACKAGE_DIR) tests features
 	poetry run black --check $(PACKAGE_DIR) tests features
 
 tox-format:
