@@ -51,7 +51,7 @@ sphinx-autodoc-typehints = {version = "^1.10.3", optional = true}
 sphinx-autobuild = {version = "^0.7.1", optional = true}
 sphinx_rtd_theme = {version = "^0.4.3", optional = true}
 # Optional dependencies to be part of `repl` extra
-bpython = {version = "^0.18", optional = true}
+bpython = {version = "^0.24", optional = true}
 # Non optional dependendies
 #############################
 # Add you dependencies here #
