@@ -43,7 +43,7 @@ pylint = {version = "^2.3", optional = true}
 yapf = {version = "^0.27.0", optional = true}
 # Optional dependencies to be part of `format` extra
 isort = {version = "^4.3", optional = true}
-seed-isort-config = {version = "^1.9.3", optional = true}
+seed-isort-config = {version = "^2.0.0", optional = true}
 black = {version = "stable", optional = true, allow-prereleases = true}
 # Optional dependencies to be part of `docs` extra
 sphinx = {version = "^2.3.0", optional = true}
