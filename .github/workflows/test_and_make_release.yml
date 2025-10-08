@@ -26,7 +26,7 @@ jobs:
       - name: Set up Python 3.8
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8
+          python-version: 3.14
       - name: Install tools (Poetry)
         uses: Gr1N/setup-poetry@v4
       - name: Get full python version
@@ -56,7 +56,7 @@ jobs:
       - name: Set up Python 3.8
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8
+          python-version: 3.14
       - name: Install tools (Poetry)
         uses: Gr1N/setup-poetry@v4
       - name: Get full python version
@@ -86,7 +86,7 @@ jobs:
       - name: Set up Python 3.8
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8
+          python-version: 3.14
       - name: Install tools (Poetry)
         uses: Gr1N/setup-poetry@v4
       - name: Get full python version
@@ -113,7 +113,7 @@ jobs:
       - name: Set up Python 3.8
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8
+          python-version: 3.14
       - name: Install tools (Poetry)
         uses: Gr1N/setup-poetry@v4
       - name: Get full python version
@@ -140,7 +140,7 @@ jobs:
       - name: Set up Python 3.8
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8
+          python-version: 3.14
       - name: Install tools (Poetry)
         uses: Gr1N/setup-poetry@v4
       - name: Get full python version
