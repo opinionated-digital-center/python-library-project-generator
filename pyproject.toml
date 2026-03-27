@@ -82,5 +82,5 @@ line-length = 88
 target_version = ["py38"]
 
 [build-system]
-requires = ["poetry==1.0.5"]
+requires = ["poetry==1.8.5"]
 build-backend = "poetry.masonry.api"
