@@ -56,7 +56,7 @@ bpython = {version = "^0.18", optional = true}
 #############################
 # Add you dependencies here #
 #############################
-cookiecutter = "^1.7"
+cookiecutter = "^2.0.0"
 
 [tool.poetry.extras]
 test = ["pytest", "PyHamcrest", "loguru"]
